@@ -4,16 +4,18 @@ namespace Koz;
 
 require 'Autoloader.php';
 
-Autoloader::register();
+\Koz\Autoloader::register();
 
-use Env;
+use \Koz\Env as Env;
 
 class App {
     const VERSION  = '1.0.0';
-    const CODENAME = 'goma';
+    const CODENAME = 'ão';
 
-    static public $env = \Env::PRODUCTION;
+    static public $env = Env::PRODUCTION;
 }
 
+preg_match("!(?P<te>[^/]+)/(?P<year>\d{4})!", 'teste/2014', $results);
+echo '<pre>';
 
-die('Test '.\Env::PRODUCTION);
+print_r($results);
