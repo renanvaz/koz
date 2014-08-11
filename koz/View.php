@@ -11,8 +11,4 @@ class HTTP {
     const TRACE   = 'TRACE';
     const CONNECT = 'CONNECT';
     const HEAD    = 'HEAD';
-
-    public static function redirect () {
-
-    }
 }

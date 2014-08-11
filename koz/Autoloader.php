@@ -4,9 +4,7 @@ namespace Koz;
 
 class Autoloader {
     public static function autoload($className) {
-        echo $className . "\n";
         $className = ltrim($className, '\\');
-        $className = ltrim($className, 'Koz\\');
         $fileName  = '';
         $namespace = '';
         if ($lastNsPos = strrpos($className, '\\')) {
@@ -17,10 +15,8 @@ class Autoloader {
         $fileName .= str_replace('_', DIRECTORY_SEPARATOR, $className) . '.php';
 
         // Require file only if it exists. Else let other registered autoloaders worry about it.
-        echo $fileName . "\n";
-        if (file_exists(SYSPATH . $fileName)) {
-            echo 'autoload: '.$fileName;
-            require $fileName;
+        if (file_exists(PRIVATE_PATH.$fileName)) {
+            require PRIVATE_PATH.$fileName;
         }
     }
 

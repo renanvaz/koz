@@ -14,11 +14,9 @@ date_default_timezone_set('America/Chicago');
  */
 setlocale(LC_ALL, 'pt_BR.utf-8');
 
-
-spl_autoload_register(array('Kohana', 'auto_load'));
 mb_substitute_character('none');
 
-KOZ::$environment = constant('KOZ::'.strtoupper($_SERVER['ENV']));
+KOZ::$env= constant('KOZ::'.strtoupper($_SERVER['ENV']));
 
 /**
  * Initialize Kohana, setting the default options.

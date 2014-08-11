@@ -3,19 +3,43 @@
 namespace Koz;
 
 class Router {
+    const REGEX_VALID_CHARACTERS     = '[a-zA-Z0-9_-]+';
 
-    const REGEX_GROUP   = '\(((?:(?>[^()]+)|(?R))*)\)';
+    static private $routes = [];
 
-    // Defines the pattern of a <segment>
-    const REGEX_KEY     = '<([a-zA-Z0-9_]++)>';
+    /**
+     * Add a new route to math URI
+     *
+     * @param string $name The alias of URI
+     * @param string $route The URI mather
+     * @param array $defaults The defaults values of params variables
+     *
+     * @example Router::add('default', ':controller/:action(/:id)', ['controller' => 'teste', 'action' => 'index']);
+     */
 
-    // What can be part of a <segment> value
-    const REGEX_SEGMENT = '[^/.,;?\n]++';
+    static public function add ($name, $route, Array $defaults = []) {
+        self::$routes[$name] = [
+            'regex'    => preg_replace('!:('.self::REGEX_VALID_CHARACTERS.')!', '(?P<$1>'.self::REGEX_VALID_CHARACTERS.')', preg_replace('!\)!', ')?', $route)),
+            'defaults' => $defaults,
+        ];
+    }
 
-    // What must be escaped in the route regex
-    const REGEX_ESCAPE  = '[.\\+*?[^\\]${}=!|]';
+    /**
+     * Parse URL and call the controller and action
+     *
+     * @param string $uri The uri to parse
+     *
+     * @example Router::parse('uri/segment');
+     */
 
-    static public function parse($uri) {
+    static public function parse ($uri) {
+        foreach (self::$routes as $name => $data) {
+            if (preg_match('!'.$data['regex'].'!', $uri, $matches)) {
+                Request::init($uri, $_SERVER['REQUEST_METHOD'], $matches, $data['defaults']);
+                return TRUE;
+            }
+        }
 
+        return FALSE;
     }
 }
