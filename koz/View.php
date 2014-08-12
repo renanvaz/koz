@@ -51,7 +51,7 @@ class View {
      * @return  mixed
      * @throws  Exception
      */
-    public function & __get($key) {
+    public function __get($key) {
         if (array_key_exists($key, $this->_data)) {
             return $this->_data[$key];
         } elseif (array_key_exists($key, View::$_global_data)) {
@@ -93,7 +93,7 @@ class View {
      * @param   array   $data   array of values
      * @return  View
      */
-    public static function factory($file = NULL, array $data = NULL) {
+    public static function make($file = NULL, array $data = NULL) {
         return new View($file, $data);
     }
 
