@@ -2,12 +2,23 @@
 
 namespace App\Controllers;
 
-class Home extends \Koz\Controller {
+use Koz\Controller;
+use Koz\Debug;
+use Koz\Request;
+use Koz\Input;
+
+class Home extends Controller {
     public function GET_index () {
-        echo \Koz\Debug::vars(\Koz\Request::param('id'));
+        echo 'BBBBBBBBBBBBBBBBBB'. "\n";
+        echo Request::param('id', 'NADA')."\n";
+        echo Input::GET('teste', 'Não tem')."\n";
     }
 
     public function REQUEST_index () {
         echo 'AAAAAAAAAAAAAAAAAA';
+    }
+
+    public function REQUEST_indexTest () {
+        echo 'CCCCCCCCCCCCCCCCC';
     }
 }

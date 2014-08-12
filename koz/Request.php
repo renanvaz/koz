@@ -32,6 +32,8 @@ class Request {
     }
 
     public static function init ($uri, $method, $params, $defaults) {
+        header('Content-type: text/html; charset='.Core::$charset);
+
         self::$uri          = $uri;
         self::$method       = $method;
         self::$params       = $params;
