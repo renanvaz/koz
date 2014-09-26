@@ -14,46 +14,18 @@ date_default_timezone_set('America/Chicago');
  */
 setlocale(LC_ALL, 'pt_BR.utf-8');
 
-mb_substitute_character('none');
-
-KOZ::$env= constant('KOZ::'.strtoupper($_SERVER['ENV']));
-
 /**
- * Initialize Kohana, setting the default options.
- *
- * The following options are available:
- *
- * - string   base_url    path, and optionally domain, of your application   NULL
- * - string   index_file  name of your index file, usually "index.php"       index.php
- * - string   charset     internal character set used for input and output   utf-8
- * - string   cache_dir   set the internal cache directory                   APPPATH/cache
- * - integer  cache_life  lifetime, in seconds, of items cached              60
- * - boolean  errors      enable or disable error handling                   TRUE
- * - boolean  profile     enable or disable internal profiling               TRUE
- * - boolean  caching     enable or disable internal caching                 FALSE
- * - boolean  expose      set the X-Powered-By header                        FALSE
+ * Set the application Env.
  */
-Kohana::init(array(
-	'base_url'   => '/kohana/',
-));
+Koz\Core::$env = constant('KOZ::'.strtoupper($_SERVER['ENV']));
 
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
-Kohana::modules(array(
-	// 'auth'       => MODPATH.'auth',       // Basic authentication
-	// 'cache'      => MODPATH.'cache',      // Caching with multiple backends
-	// 'database'   => MODPATH.'database',   // Database access
-	// 'orm'        => MODPATH.'orm',        // Object Relationship Mapping
-	// 'image'      => MODPATH.'image',      // Image manipulation
+Koz\Core::modules(array(
+	// 'auth'       => MOD_PATH.'auth',       // Basic authentication
+	// 'cache'      => MOD_PATH.'cache',      // Caching with multiple backends
+	// 'database'   => MOD_PATH.'database',   // Database access
+	// 'orm'        => MOD_PATH.'orm',        // Object Relationship Mapping
+	// 'image'      => MOD_PATH.'image',      // Image manipulation
 ));
-
-/**
- * Set the routes. Each route must have a minimum of a name, a URI and a set of
- * defaults for the URI.
- */
-Route::set('default', '(<controller>(/<action>(/<id>)))')
-	->defaults(array(
-		'controller' => 'welcome',
-		'action'     => 'index',
-	));

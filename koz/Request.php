@@ -3,26 +3,20 @@
 namespace Koz;
 
 class Request {
-    private static $uri;
-    private static $method;
-    private static $controller;
-    private static $action;
-    private static $params;
-    private static $defaults;
+    private static $_uri;
+    private static $_method;
+    private static $_controller;
+    private static $_action;
+    private static $_params;
+    private static $_defaults;
 
     public function __get ($v) {
         switch ($v) {
             case 'uri':
-                return self::$uri;
-            break;
             case 'method':
-                return self::$method;
-            break;
             case 'controller':
-                return self::$controller;
-            break;
             case 'action':
-                return self::$action;
+                return self::${'_'.$v};
             break;
             default:
                 // Error
@@ -34,12 +28,12 @@ class Request {
     public static function init ($uri, $method, $params, $defaults) {
         header('Content-type: text/html; charset='.Core::$charset);
 
-        self::$uri          = $uri;
-        self::$method       = $method;
-        self::$params       = $params;
-        self::$defaults     = $defaults;
-        self::$controller   = \Koz\Helpers\Text::studlyCase(self::param('controller'));
-        self::$action       = \Koz\Helpers\Text::camelCase(self::param('action'));
+        self::$_uri          = $uri;
+        self::$_method       = $method;
+        self::$_params       = $params;
+        self::$_defaults     = $defaults;
+        self::$_controller   = \Koz\Helpers\Text::studlyCase(self::param('controller'));
+        self::$_action       = \Koz\Helpers\Text::camelCase(self::param('action'));
 
         $class = '\App\Controllers\\'.self::$controller;
 

@@ -20,6 +20,10 @@ class Core {
             // Set the MB extension encoding to the same character set
             mb_internal_encoding(Core::$charset);
         }
+        
+        if (function_exists('mb_substitute_character')) {
+            mb_substitute_character('none');
+        }
 
         self::$base_url = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
         self::$uri = preg_replace(['!'.self::$base_url.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
