@@ -36,7 +36,7 @@ class Router {
         foreach (self::$_routes as $name => $data) {
             if (preg_match('!'.$data['regex'].'!', $uri, $matches)) {
                 // Testar qual valor fica como default
-                Request::init($uri, $_SERVER['REQUEST_METHOD'], $data['defaults'] + $matches);
+                Request::init($uri, $_SERVER['REQUEST_METHOD'], $data['defaults'], $matches);
                 return TRUE;
             }
         }

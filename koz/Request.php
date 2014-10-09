@@ -2,6 +2,9 @@
 
 namespace Koz;
 
+use \Koz\Helpers\Text;
+use \Koz\Helpers\Debug;
+
 class Request {
     private static $_uri;
     private static $_method;
@@ -10,40 +13,25 @@ class Request {
     private static $_params;
     private static $_defaults;
 
-    public function __get ($v) {
-        switch ($v) {
-            case 'uri':
-            case 'method':
-            case 'controller':
-            case 'action':
-                return self::${'_'.$v};
-            break;
-            default:
-                // Error
-                return FALSE;
-            break;
-        }
-    }
-
-    public static function init ($uri, $method, $params, $defaults) {
+    public static function init ($uri, $method, $defaults, $params) {
         header('Content-type: text/html; charset='.Core::$charset);
 
         self::$_uri          = $uri;
         self::$_method       = $method;
         self::$_params       = $params;
         self::$_defaults     = $defaults;
-        self::$_controller   = \Koz\Helpers\Text::studlyCase(self::param('controller'));
-        self::$_action       = \Koz\Helpers\Text::camelCase(self::param('action'));
+        self::$_controller   = Text::studlyCase(self::param('controller'));
+        self::$_action       = Text::camelCase(self::param('action'));
 
-        $class = '\App\Controllers\\'.self::$controller;
+        $class = '\App\Controllers\\'.self::$_controller;
 
         $controller = new $class();
 
-        $action = self::$method.'_'.self::$action;
+        $action = self::$_method.'_'.self::$_action;
 
         // If the action doesn't exist, it's a 404
         if (!method_exists($controller, $action)) {
-            $action = 'REQUEST_'.self::$action;
+            $action = 'REQUEST_'.self::$_action;
 
             if (!method_exists($controller, $action)) {
                 // throw HTTP_Exception::factory(404,
@@ -57,6 +45,6 @@ class Request {
     }
 
     public static function param ($name, $default = NULL) {
-        return isset(self::$params[$name]) ? self::$params[$name] : (isset(self::$defaults[$name]) ? self::$defaults[$name] : $default);
+        return isset(self::$_params[$name]) ? self::$_params[$name] : (isset(self::$_defaults[$name]) ? self::$_defaults[$name] : $default);
     }
 }

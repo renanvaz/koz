@@ -1,6 +1,6 @@
 <?php
 
-namespace Koz;
+namespace Koz\Helpers;
 
 class Debug {
     public static function vars () {

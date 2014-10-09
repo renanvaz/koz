@@ -8,8 +8,9 @@ use Koz\Request;
 use Koz\Input;
 
 class Home extends Controller {
-    public function GET_index () {
+    public function POST_index () {
         echo 'BBBBBBBBBBBBBBBBBB'. "\n";
+        echo Request::param('action')."\n";
         echo Request::param('id', 'NADA')."\n";
         echo Input::GET('teste', 'Não tem')."\n";
     }
