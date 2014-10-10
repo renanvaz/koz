@@ -6,6 +6,7 @@ use Koz\Controller;
 use Koz\Debug;
 use Koz\Request;
 use Koz\Input;
+use Koz\View;
 
 class Home extends Controller {
     public function POST_index () {
@@ -20,6 +21,6 @@ class Home extends Controller {
     }
 
     public function REQUEST_indexTest () {
-        echo 'CCCCCCCCCCCCCCCCC';
+        echo View::make('pages/'.Request::$controller.'/'.Request::$action);
     }
 }

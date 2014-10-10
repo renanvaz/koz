@@ -122,7 +122,7 @@ class View {
 
         try {
             // Load the view within the current scope
-            include $filename;
+            include APP_PATH.'views/'.$filename.'.php';
         } catch (Exception $e) {
             // Delete the output buffer
             ob_end_clean();
@@ -145,7 +145,7 @@ class View {
      * @param   mixed   $value  value
      * @return  void
      */
-    public static function global($key, $value = NULL) {
+    public static function setGlobal($key, $value = NULL) {
         if (is_array($key)) {
             foreach ($key as $key2 => $value) {
                 View::$_global_data[$key2] = $value;

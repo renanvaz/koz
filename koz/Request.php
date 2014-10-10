@@ -7,31 +7,32 @@ use \Koz\Helpers\Debug;
 
 class Request {
     private static $_uri;
-    private static $_method;
-    private static $_controller;
-    private static $_action;
     private static $_params;
     private static $_defaults;
+
+    public static $method;
+    public static $controller;
+    public static $action;
 
     public static function init ($uri, $method, $defaults, $params) {
         header('Content-type: text/html; charset='.Core::$charset);
 
         self::$_uri          = $uri;
-        self::$_method       = $method;
         self::$_params       = $params;
         self::$_defaults     = $defaults;
-        self::$_controller   = Text::studlyCase(self::param('controller'));
-        self::$_action       = Text::camelCase(self::param('action'));
+        self::$method       = $method;
+        self::$controller   = Text::studlyCase(self::param('controller'));
+        self::$action       = Text::camelCase(self::param('action'));
 
-        $class = '\App\Controllers\\'.self::$_controller;
+        $class = '\App\Controllers\\'.self::$controller;
 
         $controller = new $class();
 
-        $action = self::$_method.'_'.self::$_action;
+        $action = self::$method.'_'.self::$action;
 
         // If the action doesn't exist, it's a 404
         if (!method_exists($controller, $action)) {
-            $action = 'REQUEST_'.self::$_action;
+            $action = 'REQUEST_'.self::$action;
 
             if (!method_exists($controller, $action)) {
                 // throw HTTP_Exception::factory(404,
