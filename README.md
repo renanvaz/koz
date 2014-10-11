@@ -1,40 +1,21 @@
-koz
+Koz framework
 ===
 
-Request
-    GET
-    POST
-    PUT!
-    DELETE
-    FILES
+Koz é um framework PHP inspirado em alguns dos melhores frameworks PHP atuais. Dentre elas posso citar o Kohana, Slim, Laravel e CakePHP.
+Cada um deles possui features que considero interessantes e outras que não, juntei com minhas idéias e surgiu o Koz.
 
-    SERVER
+Objetivos
+==
 
-    SESSION
-    COOKIE
+- Simplicidade.
+- Performance.
+- Minimalista porém completo.
 
-    Redirect
+Como chegar neste resultado
+==
 
-Response
-    Header
-    Body
-Log
-Exception
-Controller
-Model
-    Query
-    ORM
-View
-    Engine?
-
-Config
-Herlpers
-    Cache
-    Cookie
-    Session
-    Encrypt
-
-    Assets
-    File
-    Image
-
+- Criar um sistema de MVC eficiente.
+- Criar uma API de fácil assimilação e com palavras simples.
+- Criar um sistema de ORM completo e cognitivo.
+- Possibilitar a injeção de modulos autônomos.
+- Criar Helpers que realmente sejam úteis.
