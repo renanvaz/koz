@@ -10,6 +10,7 @@ Objetivos
 - Simplicidade.
 - Performance.
 - Minimalista porém completo.
+- Garantir que qualquer pessoa que conheça o framework editar fácilmente um código de terceiro.
 
 Como chegar neste resultado
 ==
@@ -19,3 +20,4 @@ Como chegar neste resultado
 - Criar um sistema de ORM completo e cognitivo.
 - Possibilitar a injeção de modulos autônomos.
 - Criar Helpers que realmente sejam úteis.
+- Não criar infinitas formas de se fazer o mesmo.
