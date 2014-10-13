@@ -17,9 +17,9 @@ class Request {
     public static function init ($uri, $method, $defaults, $params) {
         header('Content-type: text/html; charset='.Core::$charset);
 
-        self::$_uri          = $uri;
-        self::$_params       = $params;
-        self::$_defaults     = $defaults;
+        self::$_uri         = $uri;
+        self::$_params      = $params;
+        self::$_defaults    = $defaults;
         self::$method       = $method;
         self::$controller   = Text::studlyCase(self::param('controller'));
         self::$action       = Text::camelCase(self::param('action'));
@@ -42,7 +42,9 @@ class Request {
             }
         }
 
+        $controller->before();
         $controller->{$action}();
+        $controller->after();
     }
 
     public static function param ($name, $default = NULL) {

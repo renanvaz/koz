@@ -2,10 +2,6 @@
 
 namespace Koz;
 
-require 'Autoloader.php';
-
-Autoloader::register();
-
 class Core {
     const VERSION  = '1.0.0';
     const CODENAME = 'ão';
@@ -29,9 +25,6 @@ class Core {
         self::$uri = preg_replace(['!'.self::$base_url.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
         // Set the defailt route to math all controllers and action
-        Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index']);
         Router::parse(self::$uri);
     }
 }
-
-Core::init();

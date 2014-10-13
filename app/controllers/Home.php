@@ -17,10 +17,10 @@ class Home extends Controller {
     }
 
     public function REQUEST_index () {
-        echo 'AAAAAAAAAAAAAAAAAA';
+
     }
 
     public function REQUEST_indexTest () {
-        echo View::make('pages/'.Request::$controller.'/'.Request::$action);
+
     }
 }
