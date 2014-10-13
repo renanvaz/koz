@@ -166,22 +166,11 @@ class ORM {
      * Adds addition tables to "JOIN ...".
      *
      * @param   mixed   $table  column name or array($column, $alias) or object
+     * @param   array   $condition   column name, operator, column name
      * @param   string  $type   join type (LEFT, RIGHT, INNER, etc)
      * @return  $this
      */
-    public function join ($table, $type = NULL) {
-        return $this;
-    }
-
-    /**
-     * Adds "ON ..." conditions for the last created JOIN statement.
-     *
-     * @param   mixed   $c1  column name or array($column, $alias) or object
-     * @param   string  $op  logic operator
-     * @param   mixed   $c2  column name or array($column, $alias) or object
-     * @return  $this
-     */
-    public function on ($c1, $op, $c2) {
+    public function join ($table, $condition, $type = 'INNER') {
         return $this;
     }
 
@@ -228,6 +217,37 @@ class ORM {
      */
     public function offset ($number) {
         return $this;
+    }
+
+    /**
+     * Finds and loads a single database row into the object.
+     *
+     * @chainable
+     * @throws Kohana_Exception
+     * @return ORM
+     */
+    public function find () {
+        return $this->_load_result(FALSE);
+    }
+
+    /**
+     * Finds multiple database rows and returns an iterator of the rows found.
+     *
+     * @throws Kohana_Exception
+     * @return Database_Result
+     */
+    public function find_all () {
+        return $this->_load_result(TRUE);
+    }
+
+    /**
+     * Delete multiple database rows and yours relationships.
+     *
+     * @throws Kohana_Exception
+     * @return Database_Result
+     */
+    public function delete_all () {
+        return $this->_load_result(TRUE);
     }
 
     /**
