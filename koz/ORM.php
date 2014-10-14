@@ -4,44 +4,24 @@ namespace Koz;
 
 class ORM {
     /**
-     * @var array
-     */
-    private $_original_values = array();
-
-    /**
      * Table primary key
      * @var string
      */
-    private $_primary_key = 'id';
+    public static $pk = 'id';
 
     /**
-     * "Has one" relationships
+     * Relationships
      * @var array
      */
-    protected $_has_one = array();
+    protected $_hasOne = array();
+    protected $_belongsTo = array();
+    protected $_hasMany = array();
 
     /**
-     * "Belongs to" relationships
-     * @var array
-     */
-    protected $_belongs_to = array();
-
-    /**
-     * "Has many" relationships
-     * @var array
-     */
-    protected $_has_many = array();
-
-    /**
-     * Table name
+     * Table info
      * @var string
      */
-    protected $_table_name;
-
-    /**
-     * Table columns
-     * @var array
-     */
+    protected $_name;
     protected $_columns;
 
     /**
@@ -79,7 +59,7 @@ class ORM {
      */
     public static function make ($model, $id = NULL) {
         // Set class name
-        $model = 'Model_'.$model;
+        $model = 'App\models\\'.$model;
 
         return new $model ($id);
     }
@@ -122,11 +102,11 @@ class ORM {
     }
 
     /**
-     * Creates a new "WHERE" condition for the query.
+     * Creates a new "WHERE BETWEEN" condition for the query.
      *
      * @param   mixed   $column  column name or array($column, $alias) or object
-     * @param   string  $op      logic operator
-     * @param   mixed   $value   column value
+     * @param   string  $value1  column value
+     * @param   mixed   $value2  column value
      * @return  $this
      */
     public function between ($column, $value1, $value2) {
@@ -248,36 +228,5 @@ class ORM {
      */
     public function delete_all () {
         return $this->_load_result(TRUE);
-    }
-
-    /**
-     * Displays the primary key of a model when it is converted to a string.
-     *
-     * @return string
-     */
-    public function __toString () {
-        return (string) $this->pk();
-    }
-    /**
-     * Handles retrieval of all model values, relationships, and metadata.
-     * [!!] This should not be overridden.
-     *
-     * @param   string $column Column name
-     * @return  mixed
-     */
-    public function __get($column) {
-        return '';
-    }
-
-    /**
-     * Base set method.
-     * [!!] This should not be overridden.
-     *
-     * @param  string $column  Column name
-     * @param  mixed  $value   Column value
-     * @return void
-     */
-    public function __set ($column, $value) {
-
     }
 }
