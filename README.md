@@ -1,7 +1,7 @@
 Koz framework
 ===
 
-Koz é um framework PHP inspirado em alguns dos melhores frameworks PHP atuais. Dentre elas posso citar o Kohana, Slim, Laravel e CakePHP.
+Koz é um framework PHP inspirado em alguns dos melhores frameworks PHP atuais. Dentre eles posso citar o Kohana, Slim, Laravel e CakePHP.
 Cada um deles possui features que considero interessantes e outras que não, juntei com minhas idéias e surgiu o Koz.
 
 Objetivos
@@ -10,7 +10,7 @@ Objetivos
 - Simplicidade.
 - Performance.
 - Minimalista porém completo.
-- Garantir que qualquer pessoa que conheça o framework editar fácilmente um código de terceiro.
+- Garantir que qualquer pessoa que conheça o framework possa editar fácilmente um código de terceiro.
 
 Como chegar neste resultado
 ==
