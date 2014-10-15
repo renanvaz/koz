@@ -23,15 +23,15 @@ class Home extends Controller {
     }
 
     public function REQUEST_redirect () {
-        HTTP::redirect('home/index');
+        HTTP::redirect('home/index', 301);
     }
 
     public function REQUEST_body () {
-        Response::body("Teste\nbody");
+        Response::body("Teste\nbody<br />break açênto");
     }
 
     public function REQUEST_raw () {
-        Response::raw("Teste\nraw");
+        Response::raw("Teste\nraw<br />break açênto");
     }
 
     public function REQUEST_json () {

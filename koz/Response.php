@@ -34,4 +34,9 @@ class Response {
 
         die();
     }
+
+    public static function file ($file, $content = FALSE ) {
+        // Implements
+        die();
+    }
 }
