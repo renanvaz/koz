@@ -30,6 +30,6 @@ abstract class Controller {
      * @return  void
      */
     public function after () {
-        echo $this->template->render();
+        Response::body($this->template->render());
     }
 }

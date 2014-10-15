@@ -2,7 +2,7 @@
 
 namespace Koz;
 
-class ORMItem {
+class Model {
      /**
      * Displays the primary key of a model when it is converted to a string.
      *

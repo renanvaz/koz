@@ -36,4 +36,8 @@ class Input {
     public static function HEAD ($key, $default = NULL) {
         return Arr::get($_HEAD, $key, $default);
     }
+
+    public static function RAW () {
+        return file_get_contents('php://input');
+    }
 }

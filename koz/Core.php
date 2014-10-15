@@ -7,7 +7,7 @@ class Core {
     const CODENAME = 'ão';
 
     public static $charset = 'utf-8';
-    public static $base_url = '';
+    public static $baseURL = '';
     public static $uri = '';
     public static $env = Env::PRODUCTION;
 
@@ -21,8 +21,8 @@ class Core {
             mb_substitute_character('none');
         }
 
-        self::$base_url = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
-        self::$uri = preg_replace(['!'.self::$base_url.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
+        self::$baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
+        self::$uri = preg_replace(['!'.self::$baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
         // Set the defailt route to math all controllers and action
         Router::parse(self::$uri);
