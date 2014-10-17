@@ -1,4 +1,6 @@
-Index
+Index<br />
+<a href="home/index-test">Index test</a><br />
 
-<?= Koz\Core::$baseURL ?><br />
-<?= Koz\Core::$uri ?>
+<?= Koz\Core::instance()->charset ?><br />
+<?= Koz\Core::instance()->baseURL ?><br />
+<?= Koz\Core::instance()->uri ?>

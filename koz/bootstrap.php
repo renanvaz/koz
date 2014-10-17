@@ -8,4 +8,4 @@ Koz\Autoloader::register();
 require APP_PATH.'bootstrap.php';
 
 // Init the Koz
-Koz\Core::init();
+Koz\Core::instance()->init();
