@@ -16,6 +16,7 @@ class Core {
     private function __construct () {}
 
     public function __get ($key) {
+        echo $key. '<br>';
         switch ($key) {
             case 'baseURL':
                 return $this->_baseURL;
@@ -38,7 +39,7 @@ class Core {
         return self::$instance;
     }
 
-    public function init () {
+    public static function init () {
         if (function_exists('mb_internal_encoding')) {
             // Set the MB extension encoding to the same character set
             mb_internal_encoding(self::$charset);
@@ -48,10 +49,12 @@ class Core {
             mb_substitute_character('none');
         }
 
-        $this->_baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
-        $this->_uri = preg_replace(['!'.$this->_baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
+        $instance = self::instance();
+
+        $instance->_baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
+        $instance->_uri = preg_replace(['!'.$instance->_baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
         // Set the defailt route to math all controllers and action
-        Router::parse($this->_uri);
+        Router::parse($instance->_uri);
     }
 }
