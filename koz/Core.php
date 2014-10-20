@@ -65,7 +65,7 @@ class Core {
 
             while (($fileline = fgets($handle)) !== false) {
                 if ($l >= $line-$numLines AND $l <= $line+$numLines) {
-                    $snippet .= '<p'.($l == $line ? ' class="highlight"' : '').'><span>'.str_pad($l, $pad, '0', STR_PAD_LEFT).'</span>'.str_replace(['\n', ' ', '\t'], ['\n', '&nbsp;', '&nbsp;&nbsp;&nbsp;&nbsp;'], htmlspecialchars($fileline)).'</p>';
+                    $snippet .= '<p'.($l == $line ? ' class="highlight"' : '').'><span>'.str_pad($l, $pad, '0', STR_PAD_LEFT).'</span>'.str_replace(['\n', ' ', '\t'], ['\n', '&nbsp;', '&nbsp;&nbsp;&nbsp;&nbsp;'], htmlentities($fileline)).'</p>';
                 }
                 $l++;
             }
