@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <base href="<?php echo Koz\Core::instance()->baseURL; ?>">
+    <base href="<?php echo Koz\Core::$baseURL; ?>">
     <title>Document</title>
 </head>
 <body>

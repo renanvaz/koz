@@ -6,29 +6,11 @@ class Core {
     const VERSION  = '1.0.0';
     const CODENAME = 'ão';
 
-    private static $instance;
-    private $_baseURL;
-    private $_uri;
-
+    public static $baseURL;
+    public static $uri;
     public static $charset  = 'utf-8';
     public static $env      = Env::PRODUCTION;
 
-    private function __construct () {}
-
-    public function __get ($key) {
-        echo $key. '<br>';
-        switch ($key) {
-            case 'baseURL':
-                return $this->_baseURL;
-            break;
-            case 'uri':
-                return $this->_uri;
-            break;
-            default:
-                return isset(self::$$key) ? self::$$key : $this->$key;
-            break;
-        }
-    }
 
     public static function instance () {
         if (!isset(self::$instance)) {
@@ -40,6 +22,9 @@ class Core {
     }
 
     public static function init () {
+        set_error_handler(array('\Koz\Core', 'handleError'));
+        set_exception_handler(array('\Koz\Core', 'handleException'));
+
         if (function_exists('mb_internal_encoding')) {
             // Set the MB extension encoding to the same character set
             mb_internal_encoding(self::$charset);
@@ -49,12 +34,38 @@ class Core {
             mb_substitute_character('none');
         }
 
-        $instance = self::instance();
+        $a = 1/0;
 
-        $instance->_baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
-        $instance->_uri = preg_replace(['!'.$instance->_baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
+        self::$baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
+        self::$uri = preg_replace(['!'.self::$baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
         // Set the defailt route to math all controllers and action
-        Router::parse($instance->_uri);
+        Router::parse(self::$uri);
+
+        // Go back to the previous handlers
+        restore_error_handler();
+        restore_exception_handler();
+    }
+
+    public static function handleException($e) {
+        $type       = get_class($e);
+        $code       = $e->getCode();
+        $message    = $e->getMessage();
+        $file       = $e->getFile();
+        $line       = $e->getLine();
+        $trace      = str_replace(array('#', '\n'), array('<div>#', '</div>'), $e->getTraceAsString());
+
+        Response::body(View::make('errors/debug', array('type' => $type, 'code' => $code, 'message' => $message, 'file' => $file, 'line' => $line, 'trace' => $trace))->render());
+    }
+
+    public static function handleError($code, $error = '', $file = '', $line = '') {
+        if (error_reporting() AND $code) {
+            // This error is not suppressed by current error reporting settings
+            // Convert the error into an ErrorException
+            throw new \ErrorException($error, $code, 0, $file, $line);
+        }
+
+        // Do not execute the PHP error handler
+        return TRUE;
     }
 }

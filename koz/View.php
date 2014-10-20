@@ -171,7 +171,7 @@ class View {
      */
     public function render() {
         if (empty($this->_file)) {
-            throw new View_Exception('You must set the file to use within your view before rendering');
+            throw new \ErrorException('You must set the file to use within your view before rendering');
         }
 
         // Combine local and global data and capture the output
