@@ -57,6 +57,7 @@ class Core {
         $snippet    = '';
 
         $handle = fopen($file, 'r');
+
         if ($handle) {
             $l = 1;
             $numLines = 4;
@@ -69,8 +70,10 @@ class Core {
                 $l++;
             }
         }
+
         fclose($handle);
 
+        HTTP::status(500);
         Response::body(View::make('errors/debug', array('type' => $type, 'code' => $code, 'message' => $message, 'file' => $file, 'line' => $line, 'snippet' => $snippet, 'trace' => $trace))->render());
     }
 
