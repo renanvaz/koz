@@ -34,7 +34,7 @@ class Core {
             mb_substitute_character('none');
         }
 
-        $a = 1/0;
+        $a = '<div attr="value">asdasd</div>'.(1/0);
 
         self::$baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
         self::$uri = preg_replace(['!'.self::$baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
@@ -53,9 +53,25 @@ class Core {
         $message    = $e->getMessage();
         $file       = $e->getFile();
         $line       = $e->getLine();
-        $trace      = str_replace(array('#', '\n'), array('<div>#', '</div>'), $e->getTraceAsString());
+        $trace      = str_replace(array('#', '\n'), array('<p>#', '</p>'), $e->getTraceAsString());
+        $snippet    = '';
 
-        Response::body(View::make('errors/debug', array('type' => $type, 'code' => $code, 'message' => $message, 'file' => $file, 'line' => $line, 'trace' => $trace))->render());
+        $handle = fopen($file, 'r');
+        if ($handle) {
+            $l = 1;
+            $numLines = 4;
+            $pad = strlen($line);
+
+            while (($fileline = fgets($handle)) !== false) {
+                if ($l >= $line-$numLines AND $l <= $line+$numLines) {
+                    $snippet .= '<p'.($l == $line ? ' class="highlight"' : '').'><span>'.str_pad($l, $pad, '0', STR_PAD_LEFT).'</span>'.str_replace(['\n', ' ', '\t'], ['\n', '&nbsp;', '&nbsp;&nbsp;&nbsp;&nbsp;'], htmlspecialchars($fileline)).'</p>';
+                }
+                $l++;
+            }
+        }
+        fclose($handle);
+
+        Response::body(View::make('errors/debug', array('type' => $type, 'code' => $code, 'message' => $message, 'file' => $file, 'line' => $line, 'snippet' => $snippet, 'trace' => $trace))->render());
     }
 
     public static function handleError($code, $error = '', $file = '', $line = '') {
