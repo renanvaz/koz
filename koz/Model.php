@@ -3,7 +3,28 @@
 namespace Koz;
 
 class Model {
-     /**
+    /**
+     * Table primary key
+     * @var string
+     */
+    public static $pk = 'id';
+
+    /**
+     * Relationships
+     * @var array
+     */
+    protected $_hasOne = array();
+    protected $_belongsTo = array();
+    protected $_hasMany = array();
+
+    /**
+     * Table info
+     * @var string
+     */
+    protected $_name;
+    protected $_columns;
+
+    /**
      * Displays the primary key of a model when it is converted to a string.
      *
      * @return string

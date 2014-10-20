@@ -4,27 +4,6 @@ namespace Koz;
 
 class ORM {
     /**
-     * Table primary key
-     * @var string
-     */
-    public static $pk = 'id';
-
-    /**
-     * Relationships
-     * @var array
-     */
-    protected $_hasOne = array();
-    protected $_belongsTo = array();
-    protected $_hasMany = array();
-
-    /**
-     * Table info
-     * @var string
-     */
-    protected $_name;
-    protected $_columns;
-
-    /**
      * Query parts
      * @var array
      */
