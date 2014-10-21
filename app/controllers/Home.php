@@ -3,11 +3,13 @@
 namespace App\Controllers;
 
 use Koz\Controller;
-use Koz\Response;
-use Koz\HTTP;
+use Koz\Config;
 use Koz\Debug;
-use Koz\Request;
+use Koz\HTTP;
 use Koz\Input;
+use Koz\Messages;
+use Koz\Response;
+use Koz\Request;
 use Koz\View;
 
 class Home extends Controller {
@@ -19,7 +21,13 @@ class Home extends Controller {
     }
 
     public function REQUEST_index () {
+        //Response::body(Config::load('app')->get('title'));
+        //Response::body(Config::load('messages/pt-br/validation')->get('required'));
+        //Response::body(Messages::get('validation', 'required'));
+        //Response::body(Messages::get('validation', 'required', 'en-us'));
 
+        Messages::$lang = 'en-us';
+        Response::body(Messages::get('validation', 'required'));
     }
 
     public function REQUEST_redirect () {
@@ -43,6 +51,6 @@ class Home extends Controller {
     }
 
     public function REQUEST_indexTest () {
-
+        //echo $this->template->content->test;
     }
 }

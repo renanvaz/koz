@@ -15,6 +15,11 @@ date_default_timezone_set('America/Chicago');
 setlocale(LC_ALL, 'pt_BR.utf-8');
 
 /**
+ * Set the default i18n language.
+ */
+Koz\Messages::$lang = 'pt-br';
+
+/**
  * Set the application ENV.
  * Values accepts:
  *     KOZ\Env::PRODUCTION

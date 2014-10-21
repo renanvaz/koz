@@ -2,6 +2,9 @@
 
 namespace Koz;
 
+use Koz\Helpers\Text;
+use Koz\Response;
+
 abstract class Controller {
 
     public $template = 'partials/template/base';
@@ -17,9 +20,11 @@ abstract class Controller {
         $this->template->header     = View::make('partials/template/header');
         $this->template->footer     = View::make('partials/template/footer');
 
-        if (file_exists(APP_PATH.'views/pages/'.Request::$controller.'/'.Request::$action.'.php')) {
-            $this->template->content    = View::make('pages/'.Request::$controller.'/'.Request::$action);
-        }
+        $filename = Text::deCamelCase(Request::$controller.'/'.Request::$action);
+
+        //try {
+            $this->template->content = View::make('pages/'.$filename);
+        //} catch (\Exception $e) {}
     }
 
     /**

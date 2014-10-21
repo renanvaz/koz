@@ -7,12 +7,6 @@ namespace Koz\Helpers;
  * the context it is used in. For example, changing a word into a plural form.
  *
  * [!!] Inflection is only tested with English, and is will not work with other languages.
- *
- * @package    Kohana
- * @category   Helpers
- * @author     Kohana Team
- * @copyright  (c) 2007-2012 Kohana Team
- * @license    http://kohanaframework.org/license
  */
 class Inflector {
 
@@ -35,8 +29,8 @@ class Inflector {
      * Checks if a word is defined as uncountable. An uncountable word has a
      * single form. For instance, one "fish" and many "fish", not "fishes".
      *
-     *     Inflector::uncountable('fish'); // TRUE
-     *     Inflector::uncountable('cat');  // FALSE
+     *     self::uncountable('fish'); // TRUE
+     *     self::uncountable('cat');  // FALSE
      *
      * If you find a word is being pluralized improperly, it has probably not
      * been defined as uncountable in `config/inflector.php`. If this is the
@@ -46,35 +40,35 @@ class Inflector {
      * @return  boolean
      */
     public static function uncountable($str) {
-        if (Inflector::$uncountable === NULL) {
+        if (self::$uncountable === NULL) {
             // Cache uncountables
-            Inflector::$uncountable = Kohana::$config->load('inflector')->uncountable;
+            self::$uncountable = Koz->load('inflector')->uncountable;
 
             // Make uncountables mirrored
-            Inflector::$uncountable = array_combine(Inflector::$uncountable, Inflector::$uncountable);
+            self::$uncountable = array_combine(self::$uncountable, self::$uncountable);
         }
 
-        return isset(Inflector::$uncountable[strtolower($str)]);
+        return isset(self::$uncountable[strtolower($str)]);
     }
 
     /**
      * Makes a plural word singular.
      *
-     *     echo Inflector::singular('cats'); // "cat"
-     *     echo Inflector::singular('fish'); // "fish", uncountable
+     *     echo self::singular('cats'); // "cat"
+     *     echo self::singular('fish'); // "fish", uncountable
      *
      * You can also provide the count to make inflection more intelligent.
      * In this case, it will only return the singular value if the count is
      * greater than one and not zero.
      *
-     *     echo Inflector::singular('cats', 2); // "cats"
+     *     echo self::singular('cats', 2); // "cats"
      *
      * [!!] Special inflections are defined in `config/inflector.php`.
      *
      * @param   string  $str    word to make singular
      * @param   integer $count  count of thing
      * @return  string
-     * @uses    Inflector::uncountable
+     * @uses    self::uncountable
      */
     public static function singular($str, $count = NULL) {
         // $count should always be a float
@@ -90,18 +84,18 @@ class Inflector {
         // Cache key name
         $key = 'singular_'.$str.$count;
 
-        if (isset(Inflector::$cache[$key]))
-            return Inflector::$cache[$key];
+        if (isset(self::$cache[$key]))
+            return self::$cache[$key];
 
-        if (Inflector::uncountable($str))
-            return Inflector::$cache[$key] = $str;
+        if (self::uncountable($str))
+            return self::$cache[$key] = $str;
 
-        if (empty(Inflector::$irregular)) {
+        if (empty(self::$irregular)) {
             // Cache irregular words
-            Inflector::$irregular = Kohana::$config->load('inflector')->irregular;
+            self::$irregular = Kohana::$config->load('inflector')->irregular;
         }
 
-        if ($irregular = array_search($str, Inflector::$irregular)) {
+        if ($irregular = array_search($str, self::$irregular)) {
             $str = $irregular;
         } elseif (preg_match('/us$/', $str)) {
             // http://en.wikipedia.org/wiki/Plural_form_of_words_ending_in_-us
@@ -117,27 +111,27 @@ class Inflector {
             $str = substr($str, 0, -1);
         }
 
-        return Inflector::$cache[$key] = $str;
+        return self::$cache[$key] = $str;
     }
 
     /**
      * Makes a singular word plural.
      *
-     *     echo Inflector::plural('fish'); // "fish", uncountable
-     *     echo Inflector::plural('cat');  // "cats"
+     *     echo self::plural('fish'); // "fish", uncountable
+     *     echo self::plural('cat');  // "cats"
      *
      * You can also provide the count to make inflection more intelligent.
      * In this case, it will only return the plural value if the count is
      * not one.
      *
-     *     echo Inflector::singular('cats', 3); // "cats"
+     *     echo self::singular('cats', 3); // "cats"
      *
      * [!!] Special inflections are defined in `config/inflector.php`.
      *
      * @param   string  $str    word to pluralize
      * @param   integer $count  count of thing
      * @return  string
-     * @uses    Inflector::uncountable
+     * @uses    self::uncountable
      */
     public static function plural($str, $count = NULL) {
         // $count should always be a float
@@ -156,20 +150,20 @@ class Inflector {
         // Check uppercase
         $is_uppercase = ctype_upper($str);
 
-        if (isset(Inflector::$cache[$key]))
-            return Inflector::$cache[$key];
+        if (isset(self::$cache[$key]))
+            return self::$cache[$key];
 
-        if (Inflector::uncountable($str))
-            return Inflector::$cache[$key] = $str;
+        if (self::uncountable($str))
+            return self::$cache[$key] = $str;
 
-        if (empty(Inflector::$irregular)) {
+        if (empty(self::$irregular)) {
             // Cache irregular words
-            Inflector::$irregular = Kohana::$config->load('inflector')->irregular;
+            self::$irregular = Kohana::$config->load('inflector')->irregular;
         }
 
-        if (isset(Inflector::$irregular[$str])) {
-            $str = Inflector::$irregular[$str];
-        } elseif (in_array($str, Inflector::$irregular)) {
+        if (isset(self::$irregular[$str])) {
+            $str = self::$irregular[$str];
+        } elseif (in_array($str, self::$irregular)) {
             // Do nothing
         } elseif (preg_match('/[sxz]$/', $str) OR preg_match('/[^aeioudgkprt]h$/', $str)) {
             $str .= 'es';
@@ -186,62 +180,6 @@ class Inflector {
         }
 
         // Set the cache and return
-        return Inflector::$cache[$key] = $str;
+        return self::$cache[$key] = $str;
     }
-
-    /**
-     * Makes a phrase camel case. Spaces and underscores will be removed.
-     *
-     *     $str = Inflector::camelize('mother cat');     // "motherCat"
-     *     $str = Inflector::camelize('kittens in bed'); // "kittensInBed"
-     *
-     * @param   string  $str    phrase to camelize
-     * @return  string
-     */
-    public static function camelize($str) {
-        $str = 'x'.strtolower(trim($str));
-        $str = ucwords(preg_replace('/[\s_]+/', ' ', $str));
-
-        return substr(str_replace(' ', '', $str), 1);
-    }
-
-    /**
-     * Converts a camel case phrase into a spaced phrase.
-     *
-     *     $str = Inflector::decamelize('houseCat');    // "house cat"
-     *     $str = Inflector::decamelize('kingAllyCat'); // "king ally cat"
-     *
-     * @param   string  $str    phrase to camelize
-     * @param   string  $sep    word separator
-     * @return  string
-     */
-    public static function decamelize($str, $sep = ' ') {
-        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1'.$sep.'$2', trim($str)));
-    }
-
-    /**
-     * Makes a phrase underscored instead of spaced.
-     *
-     *     $str = Inflector::underscore('five cats'); // "five_cats";
-     *
-     * @param   string  $str    phrase to underscore
-     * @return  string
-     */
-    public static function underscore($str) {
-        return preg_replace('/\s+/', '_', trim($str));
-    }
-
-    /**
-     * Makes an underscored or dashed phrase human-readable.
-     *
-     *     $str = Inflector::humanize('kittens-are-cats'); // "kittens are cats"
-     *     $str = Inflector::humanize('dogs_as_well');     // "dogs as well"
-     *
-     * @param   string  $str    phrase to make human-readable
-     * @return  string
-     */
-    public static function humanize($str) {
-        return preg_replace('/[_-]+/', ' ', trim($str));
-    }
-
 }

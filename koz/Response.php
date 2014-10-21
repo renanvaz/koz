@@ -35,7 +35,7 @@ class Response {
         die();
     }
 
-    public static function file ($file, $content = FALSE ) {
+    public static function file ($file, $content = FALSE) {
         // Implements
         die();
     }

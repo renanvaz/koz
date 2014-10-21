@@ -57,8 +57,6 @@
     <p>The application could not run because of the following error:</p>
 
     <h2>Details</h2>
-    <p><strong>Type:</strong> <?= $type ?></p>
-    <p><strong>Code:</strong> <?= $code ?></p>
     <p><strong>Message:</strong> <?= $message ?></p>
     <p><strong>File:</strong> <?= $file ?></p>
     <p><strong>Line:</strong> <?= $line ?></p>

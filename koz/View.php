@@ -2,6 +2,9 @@
 
 namespace Koz;
 
+use Koz\Core;
+use Koz\Exception;
+
 /**
  * Acts as an object wrapper for HTML pages with embedded PHP, called "views".
  * Variables can be assigned with the view object and referenced locally within
@@ -13,10 +16,10 @@ class View {
     protected $_file;
 
     // Array of local variables
-    protected $_data = array();
+    protected $_data = [];
 
     // Array of global variables
-    protected static $_global_data = array();
+    protected static $_globalData = [];
 
     /**
      * Sets the initial view filename and local data. Views should almost
@@ -29,13 +32,16 @@ class View {
      * @return  void
      * @uses    View::set_filename
      */
-    public function __construct($file = NULL, array $data = NULL) {
-        if ($file !== NULL) {
-            $this->_file = $file;
-        }
+    public function __construct ($filename, array $data = NULL) {
+        $this->_file = Core::find('views/'.$filename);
 
-        if ($data !== NULL) {
-            $this->_data = $data + $this->_data;
+        if ($this->_file) {
+            if ($data !== NULL) {
+                $this->_data = $data + $this->_data;
+            }
+        } else {
+            $info = debug_backtrace();
+            throw new Exception('The view file "'.$filename.'" not exists.');
         }
     }
 
@@ -51,14 +57,13 @@ class View {
      * @return  mixed
      * @throws  Exception
      */
-    public function __get($key) {
-        if (array_key_exists($key, $this->_data)) {
+    public function __get ($key) {
+        if (array_key_exists ($key, $this->_data)) {
             return $this->_data[$key];
-        } elseif (array_key_exists($key, View::$_global_data)) {
-            return View::$_global_data[$key];
+        } elseif (array_key_exists ($key, self::$_globalData)) {
+            return self::$_globalData[$key];
         } else {
-            throw new Exception('View variable is not set: :var',
-                array(':var' => $key));
+            throw new Exception('View variable "'.$key.'" is not set.');
         }
     }
 
@@ -72,7 +77,7 @@ class View {
      * @param   mixed   $value  value
      * @return  void
      */
-    public function __set($key, $value) {
+    public function __set ($key, $value) {
         $this->_data[$key] = $value;
     }
 
@@ -82,7 +87,7 @@ class View {
      * @return  string
      * @uses    View::render
      */
-    public function __toString() {
+    public function __toString () {
         return $this->render();
     }
 
@@ -93,7 +98,7 @@ class View {
      * @param   array   $data   array of values
      * @return  View
      */
-    public static function make($file = NULL, array $data = NULL) {
+    public static function make ($file = NULL, array $data = NULL) {
         return new View($file, $data);
     }
 
@@ -108,10 +113,10 @@ class View {
      * @param   array   $data       variables
      * @return  string
      */
-    protected static function capture($filename, array $data) {
-        if (View::$_global_data) {
+    protected static function capture ($filename, array $data) {
+        if (self::$_globalData) {
             // Import the global view variables to local namespace
-            extract(View::$_global_data, EXTR_SKIP | EXTR_REFS);
+            extract(self::$_globalData, EXTR_SKIP | EXTR_REFS);
         }
 
         // Import the view variables to local namespace
@@ -122,7 +127,7 @@ class View {
 
         try {
             // Load the view within the current scope
-            include APP_PATH.'views/'.$filename.'.php';
+            include $filename;
         } catch (Exception $e) {
             // Delete the output buffer
             ob_end_clean();
@@ -145,13 +150,13 @@ class View {
      * @param   mixed   $value  value
      * @return  void
      */
-    public static function setGlobal($key, $value = NULL) {
-        if (is_array($key)) {
+    public static function setGlobal ($key, $value = NULL) {
+        if (is_array ($key)) {
             foreach ($key as $key2 => $value) {
-                View::$_global_data[$key2] = $value;
+                self::$_globalData[$key2] = $value;
             }
         } else {
-            View::$_global_data[$key] = $value;
+            self::$_globalData[$key] = $value;
         }
     }
 
@@ -169,13 +174,13 @@ class View {
      * @throws  View_Exception
      * @uses    View::capture
      */
-    public function render() {
-        if (empty($this->_file)) {
+    public function render () {
+        if (empty ($this->_file)) {
             throw new \ErrorException('You must set the file to use within your view before rendering');
         }
 
         // Combine local and global data and capture the output
-        return View::capture($this->_file, $this->_data);
+        return self::capture($this->_file, $this->_data);
     }
 
 }

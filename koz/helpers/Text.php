@@ -629,7 +629,7 @@ class Text {
     *
     * @param    string $string The string to convert
     * @param    bool $first_char_caps camelCase or CamelCase
-    * @return    string The converted string
+    * @return   string The converted string
     *
     */
     public static function camelCase($string) {
@@ -644,7 +644,7 @@ class Text {
     *
     * @param    string $string The string to convert
     * @param    bool $first_char_caps camelCase or CamelCase
-    * @return    string The converted string
+    * @return   string The converted string
     *
     */
     public static function studlyCase($string) {
@@ -652,5 +652,20 @@ class Text {
         $string[0] = strtoupper($string[0]);
 
         return $string;
+    }
+
+
+    /**
+     * Converts a camel case phrase into a spaced phrase.
+     *
+     *     $str = Text::deCamelCase('houseCat');    // "house cat"
+     *     $str = Text::deCamelCase('kingAllyCat'); // "king ally cat"
+     *
+     * @param   string  $str    phrase to decamelCase
+     * @param   string  $sep    word separator
+     * @return  string
+     */
+    public static function deCamelCase($str, $sep = '-') {
+        return strtolower(preg_replace('/([a-z])([A-Z])/', '$1'.$sep.'$2', trim($str)));
     }
 }
