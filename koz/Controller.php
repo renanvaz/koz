@@ -22,9 +22,10 @@ abstract class Controller {
 
         $filename = Text::deCamelCase(Request::$controller.'/'.Request::$action);
 
-        //try {
+        try {
+            // If the view content not exists, not throw a error
             $this->template->content = View::make('pages/'.$filename);
-        //} catch (\Exception $e) {}
+        } catch (\Exception $e) {}
     }
 
     /**
