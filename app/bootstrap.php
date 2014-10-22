@@ -32,16 +32,18 @@ Koz\Core::$env = constant('KOZ\Env::'.strtoupper($_SERVER['ENV']));
 /**
  * Enable modules. Modules are referenced by a relative or absolute path.
  */
-/*Koz\Core::modules(array(
+Koz\Core::modules([
 	// 'auth'       => MOD_PATH.'auth',       // Basic authentication
 	// 'cache'      => MOD_PATH.'cache',      // Caching with multiple backends
 	// 'database'   => MOD_PATH.'database',   // Database access
 	// 'orm'        => MOD_PATH.'orm',        // Object Relationship Mapping
 	// 'image'      => MOD_PATH.'image',      // Image manipulation
-));*/
+]);
 
 /**
  * Set the application Env.
- * @params: $name, $routeMatch, $defaultValues
+ * @param: String $name - A alias of Route
+ * @param: String $routeMatch - A regexpr to math the route
+ * @param: String $defaultValues - Default values for missing paramaters on the URI
  */
 Koz\Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index']);
