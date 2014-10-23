@@ -49,6 +49,10 @@ class Core {
         }
     }
 
+    public static function modules () {
+
+    }
+
     public static function handleException ($e) {
         $message    = $e->getMessage();
         $file       = $e->getFile();

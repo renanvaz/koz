@@ -22,6 +22,7 @@ class Home extends Controller {
 
     public function REQUEST_index () {
         //Response::body(Config::load('app')->get('title'));
+        Response::body(Config::load('app')->get('GA.UA'));
         //Response::body(Config::load('messages/pt-br/validation')->get('required'));
         //Response::body(Messages::get('validation', 'required'));
         //Response::body(Messages::get('validation', 'required', 'en-us'));
