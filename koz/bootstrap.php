@@ -1,7 +1,7 @@
 <?php
 
 // Load the system autoloader
-require SYS_PATH.'Autoloader.php';
+require SYS_PATH.'classes/Autoloader.php';
 Koz\Autoloader::register();
 
 // Load the system bootstrap

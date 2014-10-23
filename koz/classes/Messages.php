@@ -14,7 +14,7 @@ class Messages {
     private static $_cached = [];
 
     /**
-     * Default lang set on bootstrap file
+     * Get the config file for the selected lang and cache it
      */
     public static function get ($filename, $key, $lang = NULL) {
         $lang OR $lang = self::$lang;
