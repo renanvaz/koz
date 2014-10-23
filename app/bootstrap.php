@@ -35,7 +35,7 @@ Koz\Core::$env = constant('KOZ\Env::'.strtoupper($_SERVER['ENV']));
 Koz\Core::modules([
     'tests',            // Koz unit tests, access by the URI /tests.
     'helpers',          // Helpers community maintained.
-    'auth',             // Basic authentication.
+    //'auth',           // Basic authentication.
     // 'cache',         // Caching with multiple backends.
     // 'database',      // Database access.
     // 'orm',           // Object Relationship Mapping.
