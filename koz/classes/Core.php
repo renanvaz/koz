@@ -20,6 +20,7 @@ class Core {
     public static function init () {
         set_error_handler('\Koz\Core::handleError');
         set_exception_handler('\Koz\Core::handleException');
+        register_shutdown_function('\Koz\Core::handleShutdown');
 
         if (function_exists('mb_internal_encoding')) {
             // Set the MB extension encoding to the same character set
@@ -69,7 +70,7 @@ class Core {
 
     public static function handleException ($e) {
         $message    = $e->getMessage();
-        $file       = $e->getFile();
+        $file       = str_replace(PRIVATE_PATH, '', $e->getFile());
         $line       = $e->getLine();
         $trace      = str_replace(['#', '\n'], ['<p>#', '</p>'], $e->getTraceAsString());
         $snippet    = '';
@@ -104,5 +105,18 @@ class Core {
 
         // Do not execute the PHP error handler
         return TRUE;
+    }
+
+    public static function handleShutdown() {
+        if ($error = error_get_last()) {
+            // Clean the output buffer
+            ob_get_level() AND ob_clean();
+
+            // Fake an exception for nice debugging
+            self::handleException(new Exception($error['message'], $error['file'], $error['line']));
+
+            // Shutdown now to avoid a "death loop"
+            exit(1);
+        }
     }
 }
