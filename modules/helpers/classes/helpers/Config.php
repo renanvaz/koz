@@ -1,6 +1,6 @@
 <?php
 
-namespace Koz\Helpers;
+namespace Helpers;
 
 /**
  * Wrapper for configuration arrays. Multiple configuration readers can be

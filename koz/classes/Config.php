@@ -16,6 +16,6 @@ class ConfigFile {
     }
 
     public function get ($path, $default = NULL) {
-        return Helpers\Arr::path($this->data, $path, $default);
+        return \Helpers\Arr::path($this->data, $path, $default);
     }
 }

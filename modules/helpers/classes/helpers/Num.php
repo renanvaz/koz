@@ -1,6 +1,6 @@
 <?php
 
-namespace Koz\Helpers;
+namespace Helpers;
 
 /**
  * Number helper class. Provides additional formatting methods that for working

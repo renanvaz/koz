@@ -2,8 +2,8 @@
 
 namespace Koz;
 
-use Koz\Core;
-use Koz\Exception;
+use \Koz\Core;
+use \Koz\Exception;
 
 /**
  * Acts as an object wrapper for HTML pages with embedded PHP, called "views".

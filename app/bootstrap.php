@@ -27,21 +27,20 @@ Koz\Messages::$lang = 'pt-br';
  *     KOZ\Env::TESTING
  *     KOZ\Env::DEVELOPMENT
  */
-Koz\Core::$env = constant('KOZ\Env::'.strtoupper($_SERVER['ENV']));
+Koz\Core::$env = constant('Koz\Env::'.strtoupper($_SERVER['ENV']));
 
 /**
  * Enable modules.
  */
 Koz\Core::modules([
-    'tests',            // Koz unit tests, access by the URI /tests.
     'helpers',          // Helpers community maintained.
+    'tests',            // Koz unit tests, access by the URI /tests.
     //'auth',           // Basic authentication.
     // 'cache',         // Caching with multiple backends.
     // 'database',      // Database access.
     // 'orm',           // Object Relationship Mapping.
     // 'image',         // Image manipulation.
 ]);
-
 /**
  * Set the application Env.
  * @param: String $name - A alias for a route

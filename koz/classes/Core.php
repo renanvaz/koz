@@ -2,10 +2,10 @@
 
 namespace Koz;
 
-use Koz\Exception;
-use Koz\HTTP;
-use Koz\Response;
-use Koz\Router;
+use \Koz\Exception;
+use \Koz\HTTP;
+use \Koz\Response;
+use \Koz\Router;
 
 class Core {
     const VERSION  = '1.0.0';
@@ -15,10 +15,11 @@ class Core {
     public static $uri;
     public static $charset  = 'utf-8';
     public static $env      = Env::PRODUCTION;
+    private static $_modules = [];
 
     public static function init () {
-        set_error_handler(['\Koz\Core', 'handleError']);
-        set_exception_handler(['\Koz\Core', 'handleException']);
+        set_error_handler('\Koz\Core::handleError');
+        set_exception_handler('\Koz\Core::handleException');
 
         if (function_exists('mb_internal_encoding')) {
             // Set the MB extension encoding to the same character set
@@ -40,17 +41,30 @@ class Core {
         restore_exception_handler();
     }
 
-    public static function find ($filename) {
-        // TODO: Add modules find too
-        if (file_exists(APP_PATH.$filename.'.php')) {
-            return APP_PATH.$filename.'.php';
+    public static function find ($file) {
+        $filename = APP_PATH.$file.'.php';
+
+        if (file_exists($filename)) {
+            return $filename;
         } else {
+            // If file is not found in the APP path, search in the modules
+            foreach (self::$_modules as $module) {
+                $filename = MOD_PATH.$module.DIRECTORY_SEPARATOR.$file.'.php';
+
+                if (file_exists($filename)) {
+                    return $filename;
+                }
+            }
+
+            // Not found
             return FALSE;
         }
     }
 
-    public static function modules () {
-
+    public static function modules ($list) {
+        foreach ($list as $module) {
+            self::$_modules[] = $module;
+        }
     }
 
     public static function handleException ($e) {

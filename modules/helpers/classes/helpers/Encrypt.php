@@ -1,6 +1,6 @@
 <?php
 
-namespace Koz\Helpers;
+namespace Helpers;
 
 /**
  * The Encrypt library provides two-way encryption of text and binary strings

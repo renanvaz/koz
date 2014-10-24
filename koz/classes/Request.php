@@ -2,8 +2,8 @@
 
 namespace Koz;
 
-use \Koz\Helpers\Text;
-use \Koz\Helpers\Debug;
+use \Helpers\Text;
+use \Helpers\Debug;
 
 // isMobile
 // isIOS
@@ -27,7 +27,7 @@ class Request {
         self::$controller   = Text::studlyCase(self::param('controller'));
         self::$action       = Text::camelCase(self::param('action'));
 
-        $class = '\App\Controllers\\'.self::$controller;
+        $class = 'Controllers\\'.self::$controller;
 
         $controller = new $class();
 

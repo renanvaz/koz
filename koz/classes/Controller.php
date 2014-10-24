@@ -2,8 +2,8 @@
 
 namespace Koz;
 
-use Koz\Helpers\Text;
-use Koz\Response;
+use \Helpers\Text;
+use \Koz\Response;
 
 abstract class Controller {
 

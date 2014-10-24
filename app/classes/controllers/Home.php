@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controllers;
+namespace Controllers;
 
-use Koz\Controller;
-use Koz\Config;
-use Koz\Debug;
-use Koz\HTTP;
-use Koz\Input;
-use Koz\Messages;
-use Koz\Response;
-use Koz\Request;
-use Koz\View;
+use \Koz\Controller;
+use \Koz\Config;
+use \Koz\Debug;
+use \Koz\HTTP;
+use \Koz\Input;
+use \Koz\Messages;
+use \Koz\Response;
+use \Koz\Request;
+use \Koz\View;
 
 class Home extends Controller {
     public function POST_index () {
