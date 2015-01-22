@@ -96,12 +96,26 @@ class QueryBuilder {
     }
 
     /**
+     * Fields to SET
+     *
+     * @param   mixed field to set ['field' => 'value']
+     * @return  $this
+     */
+    public function set () {
+        $columns = func_get_args();
+
+        $this->_queryParts['set'] = ($this->_queryParts['set'] + $columns);
+
+        return $this;
+    }
+
+    /**
      * Enables or disables selecting only unique columns using "SELECT DISTINCT"
      *
      * @param   boolean  $value  enable or disable distinct columns
      * @return  $this
      */
-    public function distinct ($is) {
+    public function distinct ($is = TRUE) {
         $this->_queryParts['distinct'] = (bool) $is;
 
         return $this;
@@ -209,10 +223,22 @@ class QueryBuilder {
     }
 
     private function _quote ($field) {
-        return preg_replace('/`\*`/', '*', '`'.preg_replace('/\./', '`.`', $field).'`');
+        return preg_replace('/`\*`/', '*', '`'.preg_replace('/\./', '`.`', preg_replace('/`/', '', $field)).'`');
     }
 
-    public function __toString () {
+    public function s () {
+        $engine     = 'mysql';
+        $database   = 'koz';
+        $host       = 'localhost';
+
+        $user       = 'admin';
+        $password   = 'luver';
+
+        $dns = $engine.':dbname='.$database.";host=".$host;
+        $options = [];
+
+        $conn = new \PDO($dns, $user, $password);
+
         $q = '';
 
         $table      = $this->_queryParts['table'];
@@ -242,11 +268,14 @@ class QueryBuilder {
         }
 
         // SET
-        foreach ($set as $key => $value) {
-            $set[$key] = $this->_security($value);
-        }
+        if (count($set)) {
+            $_set = [];
+            foreach ($set as $data) {
+                $_set[key($data)] = $conn->quote(current($data));
+            }
 
-        $keys = implode(', ', $_keys);
+            //die(\Helpers\Debug::vars($_set));
+        }
 
         // WHERE
         $where = '';

@@ -26,9 +26,7 @@ class U {
             'status' => $status
         ];
 
-        if ($status === FALSE) {
-            $report['trace'] = debug_backtrace()[0];
-        }
+        $report['trace'] = debug_backtrace()[0];
 
         self::$_pointer['reports'][] = $report;
     }

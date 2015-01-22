@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * U Tests
+ **/
+require 'U.php';
+
 $private        = '../';
 $application    = '../app/';
 $modules        = '../modules/';
@@ -18,13 +23,7 @@ unset($private, $application, $modules, $system);
 
 require SYS_PATH.'bootstrap.php';
 
-/**
- * U Tests
- **/
-require 'U.php';
-
 UCore::init();
-UCore::load('tests/Core.u.php');
-UCore::load('tests/HTTP.u.php');
+UCore::load('tests/Router.u.php');
 
 echo UCore::view('ui/index.php', ['reports' => UCore::proccess(U::$_reports)]);

@@ -344,7 +344,7 @@
 
     <script>
         var groups = document.querySelectorAll('.container-test');
-        var errorsItems = document.querySelectorAll('.container-test > .content > div[u-error]');
+        var errorsItems = document.querySelectorAll('.container-test > .content > div');
         var i;
         var to;
 
