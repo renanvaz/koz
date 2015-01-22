@@ -16,7 +16,7 @@ abstract class Controller {
      * @return  void
      */
     public function before () {
-        $this->template             = View::make('partials/template/base');
+        $this->template             = View::make($this->template);
         $this->template->header     = View::make('partials/template/header');
         $this->template->footer     = View::make('partials/template/footer');
 

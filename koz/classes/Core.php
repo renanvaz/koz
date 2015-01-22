@@ -34,8 +34,9 @@ class Core {
         self::$baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
         self::$uri = preg_replace(['!'.self::$baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
-        // Set the defailt route to math all controllers and action
-        Router::parse(self::$uri);
+        if (!($info = Router::parse(self::$uri) AND Request::make($info['uri'], $info['method'], $info['defaults'], $info['params']))) {
+            HTTP::status(404);
+        }
 
         // Go back to the previous handlers
         restore_error_handler();
@@ -70,7 +71,7 @@ class Core {
 
     public static function handleException ($e) {
         $message    = $e->getMessage();
-        $file       = str_replace(PRIVATE_PATH, '', $e->getFile());
+        $file       = $e->getFile();
         $line       = $e->getLine();
         $trace      = str_replace(['#', '\n'], ['<p>#', '</p>'], $e->getTraceAsString());
         $snippet    = '';
@@ -93,7 +94,7 @@ class Core {
         fclose($handle);
 
         HTTP::status(500);
-        Response::body(View::make('errors/debug', ['message' => $message, 'file' => $file, 'line' => $line, 'snippet' => $snippet, 'trace' => $trace])->render());
+        Response::body(View::make('errors/debug', ['message' => $message, 'file' => str_replace(PRIVATE_PATH, '', $file), 'line' => $line, 'snippet' => $snippet, 'trace' => $trace])->render());
     }
 
     public static function handleError($code, $error = '', $file = '', $line = '') {

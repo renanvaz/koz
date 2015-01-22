@@ -21,3 +21,43 @@ Como chegar neste resultado
 - Possibilitar a injeção de modulos autônomos.
 - Criar Helpers que realmente sejam úteis.
 - Não criar infinitas formas de se fazer o mesmo.
+
+
+TODO
+
+!! Autoloader
+! Core
+!! Controller
+!! ControllerRest
+!! Env
+!! Exception
+! HTTP
+!! Input
+- Session
+
+!! Config
+!! Messages/i18n
+- Inflector
+
+! ORM
+- Model
+
+!! Request
+! Response
+!! Router
+- Server
+!! View
+
+- Log
+- Cache
+- Crypt
+
+- Image
+- Assets
+
+- Tests
+- Modules
+- Documentation
+
+- Security REQUEST variables
+- Security of DB queries

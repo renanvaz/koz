@@ -7,10 +7,26 @@ use \Koz\Config;
 use \Koz\Debug;
 use \Koz\HTTP;
 use \Koz\Input;
+use \Koz\QueryBuilder;
 use \Koz\Messages;
 use \Koz\Response;
 use \Koz\Request;
 use \Koz\View;
+
+
+class QB {
+    public static function _AND ($column, $op, $value) {
+        return ['AND', $column, $op, $value];
+    }
+
+    public static function _OR ($column, $op, $value) {
+        return ['AND', $column, $op, $value];
+    }
+
+    public static function _EXPR ($expr) {
+        return $expr;
+    }
+}
 
 class Home extends Controller {
     public function POST_index () {
@@ -21,6 +37,12 @@ class Home extends Controller {
     }
 
     public function REQUEST_index () {
+        $q = new QueryBuilder;
+
+        Response::body($q->select('table')->where(QB::_AND('field_2', '>', 100), QB::_OR('field_3', 'LIKE', '%test%')));
+    }
+
+    public function REQUEST_test () {
         //Response::body(Config::load('app')->get('title'));
         Response::body(Config::load('app')->get('GA.UA'));
         //Response::body(Config::load('messages/pt-br/validation')->get('required'));

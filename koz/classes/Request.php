@@ -19,7 +19,7 @@ class Request {
     public static $controller;
     public static $action;
 
-    public static function init ($uri, $method, $defaults, $params) {
+    public static function make ($uri, $method, $defaults, $params) {
         self::$_uri         = $uri;
         self::$_params      = $params;
         self::$_defaults    = $defaults;
@@ -35,17 +35,14 @@ class Request {
 
         // If the action doesn't exist, it's a 404
         if (!method_exists($controller, $action) AND !method_exists($controller, $action = 'REQUEST_'.self::$action)) {
-                HTTP::status(404);
-                // throw HTTP_Exception::factory(404,
-                //     'The requested URL :uri was not found on this server.',
-                //     [':uri' => self::request->uri()]
-                // )->request(self::request);
+            return FALSE;
         } else {
             $controller->before();
             $controller->{$action}();
             $controller->after();
-        }
 
+            return TRUE;
+        }
     }
 
     public static function param ($name, $default = NULL) {
