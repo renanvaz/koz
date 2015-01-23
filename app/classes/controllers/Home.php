@@ -39,7 +39,12 @@ class Home extends Controller {
     public function REQUEST_index () {
         $q = new QueryBuilder;
 
-        Response::body('Query: '.$q->select('test')->distinct()->fields('date')->set(['number' => 10], ['string' => 'My\'s "serious" test'], ['date' => date('Y-m-d H:i:s')])->where(QB::_AND('number', '>', 100), QB::_OR('string', 'LIKE', 'test%'))->s());
+        Response::body('Query: '.$q->select('test')
+                                        ->distinct()
+                                        ->fields('date', ['number' => 'numero'])
+                                        ->set(['number' => 10], ['string' => 'My\'s "serious" test'], ['date' => date('Y-m-d H:i:s')])
+                                        ->where('(number > ? AND string LIKE ?)', [10, 'test%'])
+                                        ->s());
     }
 
     public function REQUEST_test () {
