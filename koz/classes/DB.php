@@ -2,7 +2,9 @@
 
 namespace Koz;
 
-class QueryBuilder {
+class DB {
+
+    protected static $pdo;
 
     /**
      * Query parts
@@ -28,6 +30,37 @@ class QueryBuilder {
      * @var string
      */
     protected $_query;
+
+    /**
+     * Open a database connection
+     * @param  string $connName
+     * @return $this
+     */
+    public function open ($connName = 'default') {
+        $engine     = 'mysql';
+        $database   = 'koz';
+        $host       = 'localhost';
+
+        $user       = 'admin';
+        $password   = 'luver';
+
+        $dns = $engine.':dbname='.$database.";host=".$host;
+        $options = [];
+
+        self::$pdo = new \PDO($dns, $user, $password);
+
+        return $this;
+    }
+
+    /**
+     * Close the current connection
+     * @return $this
+     */
+    public function close () {
+        self::$pdo = null;
+
+        return $this;
+    }
 
     /**
      * Choose the table to select from.
@@ -227,18 +260,6 @@ class QueryBuilder {
     }
 
     public function s () {
-        $engine     = 'mysql';
-        $database   = 'koz';
-        $host       = 'localhost';
-
-        $user       = 'admin';
-        $password   = 'luver';
-
-        $dns = $engine.':dbname='.$database.";host=".$host;
-        $options = [];
-
-        $conn = new \PDO($dns, $user, $password);
-
         $q = '';
 
         $table      = $this->_queryParts['table'];
@@ -271,7 +292,7 @@ class QueryBuilder {
         if (count($set)) {
             $_set = [];
             foreach ($set as $data) {
-                $_set[key($data)] = $conn->quote(current($data));
+                $_set[key($data)] = self::$pdo->quote(current($data));
             }
 
             //die(\Helpers\Debug::vars($_set));
