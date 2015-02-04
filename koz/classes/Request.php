@@ -24,7 +24,7 @@ class Request {
         self::$_params      = $params;
         self::$_defaults    = $defaults;
         self::$method       = $method;
-        self::$controller   = Text::studlyCase(self::param('controller'));
+        self::$controller   = Text::studlyCaps(self::param('controller'));
         self::$action       = Text::camelCase(self::param('action'));
 
         $class = 'Controllers\\'.self::$controller;

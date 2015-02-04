@@ -640,14 +640,14 @@ class Text {
 
 
     /**
-    * Convert strings with underscores into StudlyCase
+    * Convert strings with underscores into StudlyCaps
     *
     * @param    string $string The string to convert
     * @param    bool $first_char_caps camelCase or CamelCase
     * @return   string The converted string
     *
     */
-    public static function studlyCase($string) {
+    public static function studlyCaps($string) {
         $string = self::camelCase($string);
         $string[0] = strtoupper($string[0]);
 
