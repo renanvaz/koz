@@ -15,8 +15,24 @@
         header {
             width: 100%;
             height: 500px;
-            background: linear-gradient(to bottom,#563d7c 0,#6f5499 100%);
+            background: #563d7c;
             position: relative;
+        }
+
+        h2 {
+            font-family: 'Mairy Light';
+            font-size: 38px;
+            color: #FFF;
+            margin: 0;
+            font-weight: normal;
+            display: block;
+            position: absolute;
+            text-align: center;
+            text-shadow: 0px 1px 2px rgba(0, 0, 0, .5);
+            margin-top: 100px;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
         }
 
         h1 {
@@ -28,6 +44,7 @@
             display: block;
             position: absolute;
             text-align: center;
+            text-shadow: 0px 2px 3px rgba(0, 0, 0, .5);
             width: 100%;
             top: 50%;
             transform: translateY(-50%);
@@ -47,6 +64,7 @@
     <header>
         <canvas id="myCanvas" width="100%" height="100%"></canvas>
         <h1>KOZ</h1>
+        <h2>A modern PHP framework</h2>
     </header>
 
     <script type="text/javascript">
@@ -63,6 +81,31 @@
     </script>
 
     <script type="text/javascript">
+        (function() {
+            var lastTime = 0;
+            var vendors = ['webkit', 'moz'];
+            for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+                window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+                window.cancelAnimationFrame =
+                  window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+            }
+
+            if (!window.requestAnimationFrame)
+                window.requestAnimationFrame = function(callback, element) {
+                    var currTime = new Date().getTime();
+                    var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+                    var id = window.setTimeout(function() { callback(currTime + timeToCall); },
+                      timeToCall);
+                    lastTime = currTime + timeToCall;
+                    return id;
+                };
+
+            if (!window.cancelAnimationFrame)
+                window.cancelAnimationFrame = function(id) {
+                    clearTimeout(id);
+                };
+        }());
+
         // Create an array to store our particles
         var particles = [];
 
@@ -70,14 +113,11 @@
         var particleCount = 30;
 
         // The maximum velocity in each direction
-        var maxVelocity = 2;
-
-        // The target frames per second (how often do we want to update / redraw the scene)
-        var targetFPS = 33;
+        var maxVelocity = 1;
 
         // Set the dimensions of the canvas as variables so they can be used.
-        var canvasWidth = 400;
-        var canvasHeight = 400;
+        var canvasWidth = window.innerWidth;
+        var canvasHeight = 500;
 
         // Create an image object (only need one instance)
         var imageObj = new Image();
@@ -104,7 +144,7 @@
             this.yVelocity = 0;
 
             // Set the radius
-            this.radius = 5;
+            this.radius = 10;
 
             // Store the context which will be used to draw the particle
             this.context = context;
@@ -121,7 +161,7 @@
                 // Draw the circle as before, with the addition of using the position and the radius from this object.
                 this.context.beginPath();
                 this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
-                this.context.fillStyle = "rgba(86, 61, 124, 1)";
+                this.context.fillStyle = "rgba(0, 0, 0, 1)";
                 this.context.fill();
                 this.context.closePath();
             };
@@ -209,7 +249,7 @@
         // The function to draw the scene
         function draw() {
             // Clear the drawing surface and fill it with a black background
-            context.fillStyle = "rgba(86, 61, 124, 1)";
+            context.fillStyle = "rgba(61, 44, 86, 1)";
             context.fillRect(0, 0, canvasWidth, canvasHeight);
 
             // Go through all of the particles and draw them.
@@ -225,19 +265,24 @@
             });
         }
 
+        function animate() {
+            window.requestAnimationFrame(animate);
+            // Update the scene befoe drawing
+            update();
+
+            // Draw the scene
+            draw();
+        }
+
         // Initialize the scene
         init();
 
         // If the context is set then we can draw the scene (if not then the browser does not support canvas)
         if (context) {
-            setInterval(function() {
-                // Update the scene befoe drawing
-                update();
-
-                // Draw the scene
-                draw();
-            }, 1000 / targetFPS);
+            animate();
         }
+
+
     </script>
 </body>
 </html>

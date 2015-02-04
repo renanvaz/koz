@@ -13,21 +13,6 @@ use \Koz\Response;
 use \Koz\Request;
 use \Koz\View;
 
-
-class QB {
-    public static function _AND ($column, $op, $value) {
-        return ['AND', $column, $op, $value];
-    }
-
-    public static function _OR ($column, $op, $value) {
-        return ['AND', $column, $op, $value];
-    }
-
-    public static function _EXPR ($expr) {
-        return $expr;
-    }
-}
-
 class Home extends Controller {
     public function POST_index () {
         echo 'BBBBBBBBBBBBBBBBBB'. "\n";
