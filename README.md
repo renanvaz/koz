@@ -39,7 +39,7 @@ TODO
 !! Messages/i18n
 - Inflector
 
-! ORM
+! ORM (Opção transacional, dar a opção de fechar a conexão com o banco tb)
 - Model
 
 !! Request

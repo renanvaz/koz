@@ -62,7 +62,7 @@
 </head>
 <body>
     <header>
-        <canvas id="myCanvas" width="100%" height="100%"></canvas>
+        <canvas id="myCanvas" width="1920" height="500"></canvas>
         <h1>KOZ</h1>
         <h2>A modern PHP framework</h2>
     </header>
@@ -110,13 +110,13 @@
         var particles = [];
 
         // The amount of particles to render
-        var particleCount = 30;
+        var particleCount = 10;
 
         // The maximum velocity in each direction
-        var maxVelocity = 1;
+        var maxVelocity = 2;
 
         // Set the dimensions of the canvas as variables so they can be used.
-        var canvasWidth = window.innerWidth;
+        var canvasWidth = 1920;
         var canvasHeight = 500;
 
         // Create an image object (only need one instance)
@@ -144,7 +144,7 @@
             this.yVelocity = 0;
 
             // Set the radius
-            this.radius = 10;
+            this.radius = 30;
 
             // Store the context which will be used to draw the particle
             this.context = context;
@@ -154,16 +154,18 @@
 
                 // If an image is set draw it
                 if(this.image){
-                    this.context.drawImage(this.image, this.x-128, this.y-128);
+                    this.context.drawImage(this.image, this.x-(this.image.width/2), this.y-(this.image.height/2));
                     // If the image is being rendered do not draw the circle so break out of the draw function
                     return;
                 }
-                // Draw the circle as before, with the addition of using the position and the radius from this object.
+                /*
+                // Debug draw
                 this.context.beginPath();
                 this.context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
                 this.context.fillStyle = "rgba(0, 0, 0, 1)";
                 this.context.fill();
                 this.context.closePath();
+                */
             };
 
             // Update the particle.
