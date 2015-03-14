@@ -144,13 +144,15 @@ class View {
      * Sets a global variable, similar to [View::set], except that the
      * variable will be accessible to all views.
      *
-     *     View::global($name, $value);
+     *     View::global(['name' => 'value']); // Set
+     *     View::global('name', 'value'); // Set
+     *     View::global('name'); // Get
      *
-     * @param   string  $key    variable name or an array of variables
-     * @param   mixed   $value  value
-     * @return  void
+     * @param   string or array  $key    variable name or an array of variables
+     * @param   mixed            $value  value
+     * @return  void on set or mixed on get
      */
-    public static function setGlobal ($key, $value = NULL) {
+    public static function global ($key, $value = NULL) {
         if (is_array ($key)) {
             foreach ($key as $key2 => $value) {
                 self::$_globalData[$key2] = $value;
