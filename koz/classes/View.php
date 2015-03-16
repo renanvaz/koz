@@ -67,11 +67,11 @@ class View extends Data
     /**
      * Get reference of global variables
      *
-     *      View::vars()->key
+     *      View::globalVars()->key
      *
      * @return  Data
      */
-    public static function vars()
+    public static function globals()
     {
         if (!isset(self::$_globalData)) {
             self::$_globalData = new Data;

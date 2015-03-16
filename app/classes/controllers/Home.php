@@ -7,7 +7,7 @@ use \Koz\Config;
 use \Koz\Debug;
 use \Koz\HTTP;
 use \Koz\Input;
-use \Koz\QueryBuilder;
+use \Koz\DB;
 use \Koz\Messages;
 use \Koz\Response;
 use \Koz\Request;
@@ -28,17 +28,17 @@ class Home extends Controller {
         Response::body(\Helpers\Debug::vars($test));
 
         Messages::$lang = 'en-us';
-        View::vars()->varGlobal = Messages::load('validation')->get('required');
+        View::globals()->varGlobal = Messages::load('validation')->get('required');
         $this->template->content->varLocal = 'Test Local';
 
-        /*$q = new QueryBuilder;
+        // $q = new DB;
 
-        Response::body('Query: '.$q->select('test')
-                                        ->distinct()
-                                        ->fields('date', ['number' => 'numero'])
-                                        ->set(['number' => 10], ['string' => 'My\'s "serious" test'], ['date' => date('Y-m-d H:i:s')])
-                                        ->where('(number > ? AND string LIKE ?)', [10, 'test%'])
-                                        ->s());*/
+        // Response::body('Query: '.$q->select('test')
+        //                                 ->distinct()
+        //                                 ->fields('date', ['number' => 'numero'])
+        //                                 ->set(['number' => 10], ['string' => 'My\'s "serious" test'], ['date' => date('Y-m-d H:i:s')])
+        //                                 ->where('(number > ? AND string LIKE ?)')
+        //                                 ->s());
     }
 
     public function REQUEST_test () {

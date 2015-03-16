@@ -2,7 +2,27 @@
 
 namespace Koz;
 
-class DB {
+class Where
+{
+    public static function group()
+    {
+        return ;
+    }
+}
+
+
+class DBExpr
+{
+    private $_expr;
+
+    public function __construct($expr)
+    {
+        $this->_expr = $expr;
+    }
+}
+
+class DB
+{
 
     protected static $pdo;
 
@@ -36,7 +56,8 @@ class DB {
      * @param  string $connName
      * @return $this
      */
-    public function open ($connName = 'default') {
+    public function open($connName = 'default')
+    {
         $engine     = 'mysql';
         $database   = 'koz';
         $host       = 'localhost';
@@ -56,7 +77,8 @@ class DB {
      * Close the current connection
      * @return $this
      */
-    public function close () {
+    public function close()
+    {
         self::$pdo = null;
 
         return $this;
@@ -68,7 +90,8 @@ class DB {
      * @param   string  $table  Table name
      * @return  $this
      */
-    public function select ($table) {
+    public function select($table)
+    {
         $this->_queryParts['type'] = 'SELECT';
         $this->_queryParts['table'] = $table;
 
@@ -81,7 +104,7 @@ class DB {
      * @param   string  $table  Table name
      * @return  $this
      */
-    public function delete ($table) {
+    public function delete($table) {
         $this->_queryParts['type'] = 'DELETE';
         $this->_queryParts['table'] = $table;
 
@@ -94,7 +117,8 @@ class DB {
      * @param   string  $table  Table name
      * @return  $this
      */
-    public function update ($table) {
+    public function update($table)
+    {
         $this->_queryParts['type'] = 'UPDATE';
         $this->_queryParts['table'] = $table;
 
@@ -107,7 +131,8 @@ class DB {
      * @param   string  $table  Table name
      * @return  $this
      */
-    public function insert ($table) {
+    public function insert($table)
+    {
         $this->_queryParts['type'] = 'INSERT';
         $this->_queryParts['table'] = $table;
 
@@ -120,7 +145,8 @@ class DB {
      * @param   mixed field to select
      * @return  $this
      */
-    public function fields () {
+    public function fields()
+    {
         $columns = func_get_args();
 
         $this->_queryParts['fields'] = ($this->_queryParts['fields'] + $columns);
@@ -134,7 +160,8 @@ class DB {
      * @param   mixed field to set ['field' => 'value']
      * @return  $this
      */
-    public function set () {
+    public function set()
+    {
         $columns = func_get_args();
 
         $this->_queryParts['set'] = ($this->_queryParts['set'] + $columns);
@@ -148,21 +175,47 @@ class DB {
      * @param   boolean  $value  enable or disable distinct columns
      * @return  $this
      */
-    public function distinct ($is = TRUE) {
+    public function distinct($is = TRUE)
+    {
         $this->_queryParts['distinct'] = (bool) $is;
 
         return $this;
     }
 
     /**
-     * Creates a new "WHERE" condition for the query.
+     * Creates a new "AND WHERE" condition for the query.
      *
-     * @param   mixed   $column  column name or array($column, $alias) or object
+     * @param   mixed   $condition  Condition string PDO like
+     * @uses  $this->andWhere
      * @return  $this
      */
-    public function where () {
-        $conditions = func_get_args();
-        $this->_queryParts['where'][] = count($conditions) > 1 ? ['group' => $conditions] : $conditions;
+    public function where($condition)
+    {
+        return $this->andWhere($condition);
+    }
+
+    /**
+     * Creates a new "AND WHERE" condition for the query.
+     *
+     * @param   mixed   $condition  Condition string PDO like
+     * @return  $this
+     */
+    public function andWhere($condition)
+    {
+        $this->_queryParts['where'][] = ['AND', '('.trim(trim($condition), '()').')'];
+
+        return $this;
+    }
+
+    /**
+     * Creates a new "OR WHERE" condition for the query.
+     *
+     * @param   mixed   $column  Condition string PDO like
+     * @return  $this
+     */
+    public function orWhere($condition)
+    {
+        $this->_queryParts['where'][] = ['OR', '('.trim(trim($condition), '()').')'];
 
         return $this;
     }
@@ -175,7 +228,8 @@ class DB {
      * @param   mixed   $value2  column value
      * @return  $this
      */
-    public function between ($column, $value1, $value2) {
+    public function between($column, $value1, $value2)
+    {
         return $this;
     }
 
@@ -186,7 +240,8 @@ class DB {
      * @param   string  $direction  direction of sorting
      * @return  $this
      */
-    public function orderBy ($column, $direction = NULL) {
+    public function orderBy($column, $direction = NULL)
+    {
         return $this;
     }
 
@@ -198,7 +253,8 @@ class DB {
      * @param   string  $type   join type (LEFT, RIGHT, INNER, etc)
      * @return  $this
      */
-    public function join ($table, $condition, $type = 'INNER') {
+    public function join($table, $condition, $type = 'INNER')
+    {
         return $this;
     }
 
@@ -209,7 +265,8 @@ class DB {
      * @param   ...
      * @return  $this
      */
-    public function groupBy () {
+    public function groupBy()
+    {
         $columns = func_get_args();
 
         return $this;
@@ -223,7 +280,8 @@ class DB {
      * @param   mixed   $value   column value
      * @return  $this
      */
-    public function having ($column, $op, $value = NULL) {
+    public function having($column, $op, $value = NULL)
+    {
         return $this->and_having($column, $op, $value);
     }
 
@@ -233,7 +291,8 @@ class DB {
      * @param   integer  $number  maximum results to return
      * @return  $this
      */
-    public function limit ($number) {
+    public function limit($number)
+    {
         return $this;
     }
 
@@ -243,23 +302,28 @@ class DB {
      * @param   integer   $number  starting result number
      * @return  $this
      */
-    public function offset ($number) {
+    public function offset($number)
+    {
         return $this;
     }
 
-    private function _security ($value) {
+    private function _security($value)
+    {
         return trim(preg_replace('/( +)/', ' ', $value)).';';
     }
 
-    private function _normalize ($query) {
+    private function _normalize($query)
+    {
         return trim(preg_replace('/( +)/', ' ', $query)).';';
     }
 
-    private function _quote ($field) {
+    private function _quote($field)
+    {
         return preg_replace('/`\*`/', '*', '`'.preg_replace('/\./', '`.`', preg_replace('/`/', '', $field)).'`');
     }
 
-    public function s () {
+    public function s()
+    {
         $q = '';
 
         $table      = $this->_queryParts['table'];
@@ -292,7 +356,7 @@ class DB {
         if (count($set)) {
             $_set = [];
             foreach ($set as $data) {
-                $_set[key($data)] = self::$pdo->quote(current($data));
+                $_set[key($data)] = current($data);
             }
 
             //die(\Helpers\Debug::vars($_set));
@@ -344,7 +408,8 @@ class DB {
      * @throws Kohana_Exception
      * @return ORM
      */
-    public function find () {
+    public function find()
+    {
         return $this->_load_result(FALSE);
     }
 
@@ -354,7 +419,8 @@ class DB {
      * @throws Kohana_Exception
      * @return Database_Result
      */
-    public function find_all () {
+    public function find_all()
+    {
         return $this->_load_result(TRUE);
     }
 
@@ -364,7 +430,18 @@ class DB {
      * @throws Kohana_Exception
      * @return Database_Result
      */
-    public function delete_all () {
+    public function delete_all()
+    {
         return $this->_load_result(TRUE);
+    }
+
+    /**
+     * Create a DB expression. It not will be parsed
+     * @param  string $expr
+     * @return DBExpr
+     */
+    public static function expr($expr)
+    {
+        return new DBExpr($expr);
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Koz;
 
-use Helpers\Debug;
-
 class Data implements \Countable, \Serializable, \IteratorAggregate
 {
     // Array of variables
@@ -151,6 +149,6 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      */
     public function __toString()
     {
-        return Debug::vars($this->_data);
+        return \Helpers\Debug::vars($this->_data);
     }
 }
