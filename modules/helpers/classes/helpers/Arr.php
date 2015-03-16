@@ -25,17 +25,17 @@ class Arr {
      * @return  mixed
      */
     public static function get($array, $path, $default = NULL) {
-        try {
-            $path = explode(self::$delimiter, $path);
+        $path = explode(self::$delimiter, $path);
 
-            foreach($path as $key) {
+        foreach($path as $key) {
+            if (isset($array[$key])) {
                 $array = $array[$key];
+            } else {
+                return $default;
             }
-
-            return $array;
-        } catch (\ErrorException $e) {
-            return $default;
         }
+
+        return $array;
     }
 
     /**

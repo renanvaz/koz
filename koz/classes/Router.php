@@ -17,9 +17,11 @@ class Router {
      * @example Router::add('default', ':controller/:action(/:id)', ['controller' => 'teste', 'action' => 'index']);
      */
 
-    static public function add ($name, $route, Array $defaults = []) {
+    static public function add ($name, $route, Array $defaults = [], Array $rules = []) {
+        $defaultRegex = self::REGEX_VALID_CHARACTERS;
+
         self::$_routes[$name] = [
-            'regex'    => preg_replace('!:('.self::REGEX_VALID_CHARACTERS.')!', '(?P<$1>'.self::REGEX_VALID_CHARACTERS.')', preg_replace('!\)!', ')?', $route)),
+            'regex'    => preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($rules, $defaultRegex) { return '(?P<'.$matches[1].'>'.(\Helpers\Arr::get($rules, $matches[1], $defaultRegex)).')'; }, preg_replace('!\)!', ')?', $route)),
             'defaults' => $defaults,
         ];
     }
@@ -34,7 +36,7 @@ class Router {
 
     static public function parse ($uri) {
         foreach (self::$_routes as $name => $data) {
-            if (preg_match('!'.$data['regex'].'!', $uri, $matches)) {
+            if (preg_match('!^'.$data['regex'].'$!', $uri, $matches)) {
                 // Testar qual valor fica como default
                 return ['uri' => $uri, 'method' => $_SERVER['REQUEST_METHOD'], 'defaults' => $data['defaults'], 'params' => $matches];
             }

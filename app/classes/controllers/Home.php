@@ -27,7 +27,6 @@ class Home extends Controller {
         $test->set('path1.path2', 'REPLACED');
         Response::body(\Helpers\Debug::vars($test));
 
-
         Messages::$lang = 'en-us';
         View::vars()->varGlobal = Messages::load('validation')->get('required');
         $this->template->content->varLocal = 'Test Local';
