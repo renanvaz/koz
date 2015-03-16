@@ -9,20 +9,14 @@ class Messages {
     public static $lang;
 
     /**
-     * Cache of config data
+     * Load the config message file for the selected lang
+     * @param  string $filename
+     * @param  string $lang
+     * @return ConfigFile
      */
-    private static $_cached = [];
-
-    /**
-     * Get the config file for the selected lang and cache it
-     */
-    public static function get ($filename, $key, $lang = NULL) {
+    public static function load($filename, $lang = NULL) {
         $lang OR $lang = self::$lang;
 
-        if (!isset($_cached[$lang])) {
-            $_cached[$lang] = Config::load('messages/'.$lang.'/'.$filename);
-        }
-
-        return $_cached[$lang]->get($key);
+        return Config::load('messages/'.$lang.'/'.$filename);
     }
 }

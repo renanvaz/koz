@@ -12,6 +12,7 @@ use \Koz\Messages;
 use \Koz\Response;
 use \Koz\Request;
 use \Koz\View;
+use \Koz\Data;
 
 class Home extends Controller {
     public function POST_index () {
@@ -22,14 +23,23 @@ class Home extends Controller {
     }
 
     public function REQUEST_index () {
-        $q = new QueryBuilder;
+        $test = new Data(['path1' => ['path2' => 'ASD']]);
+        $test->set('path1.path2', 'REPLACED');
+        Response::body(\Helpers\Debug::vars($test));
+
+
+        Messages::$lang = 'en-us';
+        View::vars()->varGlobal = Messages::load('validation')->get('required');
+        $this->template->content->varLocal = 'Test Local';
+
+        /*$q = new QueryBuilder;
 
         Response::body('Query: '.$q->select('test')
                                         ->distinct()
                                         ->fields('date', ['number' => 'numero'])
                                         ->set(['number' => 10], ['string' => 'My\'s "serious" test'], ['date' => date('Y-m-d H:i:s')])
                                         ->where('(number > ? AND string LIKE ?)', [10, 'test%'])
-                                        ->s());
+                                        ->s());*/
     }
 
     public function REQUEST_test () {

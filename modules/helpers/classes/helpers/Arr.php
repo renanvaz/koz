@@ -13,13 +13,18 @@ class Arr {
     public static $delimiter = '.';
 
     /**
-     * Gets a value from an array using a separated path.
+     * Retrieve a single key by path string from an array. If the key does not exist in the
+     * array, the default value will be returned instead.
+     *
+     *     // Get the value "user.name" from $array, if it exists
+     *     $username = Arr::get($array, 'user.name');
+     *
      * @param   array   $array      array to search
      * @param   mixed   $path       key path string (delimiter separated)
      * @param   mixed   $default    default value if the path is not set
      * @return  mixed
      */
-    public static function path($array, $path, $default = NULL) {
+    public static function get($array, $path, $default = NULL) {
         try {
             $path = explode(self::$delimiter, $path);
 
@@ -33,24 +38,31 @@ class Arr {
         }
     }
 
-
     /**
-     * Retrieve a single key from an array. If the key does not exist in the
-     * array, the default value will be returned instead.
+     * Set a key by path string to an array. If the key does not exist in the
+     * array, it will be created.
      *
-     *     // Get the value "username" from $_POST, if it exists
-     *     $username = Arr::get($_POST, 'username');
+     *     Arr::set($array, 'user.name', 'Test');
      *
-     *     // Get the value "sorting" from $_GET, if it exists
-     *     $sorting = Arr::get($_GET, 'sorting');
-     *
-     * @param   array   $array      array to extract from
-     * @param   string  $key        key name
-     * @param   mixed   $default    default value
-     * @return  mixed
+     * @param   array   $array      array to search
+     * @param   mixed   $path       key path string (delimiter separated)
+     * @param   mixed   $value
+     * @return  void
      */
-    public static function get($array, $key, $default = NULL) {
-        return isset($array[$key]) ? $array[$key] : $default;
-    }
+    public static function set(&$array, $path, $value) {
+        $path = explode(self::$delimiter, $path);
+        $len = count($path) -1;
 
+        foreach($path as $i => $key) {
+            if ($i < $len) {
+                if (!isset($pointer[$key])) {
+                    $array[$key] = [];
+                }
+
+                $array = &$array[$key];
+            } else {
+                $array[$key] = $value;
+            }
+        }
+    }
 }

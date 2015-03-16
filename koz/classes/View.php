@@ -2,24 +2,19 @@
 
 namespace Koz;
 
-use \Koz\Core;
-use \Koz\Exception;
-
 /**
  * Acts as an object wrapper for HTML pages with embedded PHP, called "views".
  * Variables can be assigned with the view object and referenced locally within
  * the view.
  *
  */
-class View {
+class View extends Data
+{
 
     protected $_file;
 
-    // Array of local variables
-    protected $_data = [];
-
-    // Array of global variables
-    protected static $_globalData = [];
+    // Global view variables
+    protected static $_globalData;
 
     /**
      * Sets the initial view filename and local data. Views should almost
@@ -32,7 +27,8 @@ class View {
      * @return  void
      * @uses    View::set_filename
      */
-    public function __construct ($filename, array $data = NULL) {
+    public function __construct($filename, array $data = NULL)
+    {
         $this->_file = Core::find('views/'.$filename);
 
         if ($this->_file) {
@@ -57,28 +53,31 @@ class View {
      * @return  mixed
      * @throws  Exception
      */
-    public function __get ($key) {
-        if (array_key_exists ($key, $this->_data)) {
+    public function __get($key)
+    {
+        if (isset($this->$key)) {
             return $this->_data[$key];
-        } elseif (array_key_exists ($key, self::$_globalData)) {
-            return self::$_globalData[$key];
+        } elseif (isset(self::$_globalData->$key)) {
+            return self::$_globalData->$key;
         } else {
             throw new Exception('View variable "'.$key.'" is not set.');
         }
     }
 
-
     /**
-     * Magic method, calls [View::set] with the same parameters.
+     * Get reference of global variables
      *
-     *     $view->foo = 'something';
+     *      View::vars()->key
      *
-     * @param   string  $key    variable name
-     * @param   mixed   $value  value
-     * @return  void
+     * @return  Data
      */
-    public function __set ($key, $value) {
-        $this->_data[$key] = $value;
+    public static function vars()
+    {
+        if (!isset(self::$_globalData)) {
+            self::$_globalData = new Data;
+        }
+
+        return self::$_globalData;
     }
 
     /**
@@ -87,7 +86,8 @@ class View {
      * @return  string
      * @uses    View::render
      */
-    public function __toString () {
+    public function __toString()
+    {
         return $this->render();
     }
 
@@ -98,7 +98,8 @@ class View {
      * @param   array   $data   array of values
      * @return  View
      */
-    public static function make ($file = NULL, array $data = NULL) {
+    public static function make($file = NULL, array $data = NULL)
+    {
         return new View($file, $data);
     }
 
@@ -113,10 +114,11 @@ class View {
      * @param   array   $data       variables
      * @return  string
      */
-    protected static function capture ($filename, array $data) {
+    protected static function capture($filename, array $data)
+    {
         if (self::$_globalData) {
             // Import the global view variables to local namespace
-            extract(self::$_globalData, EXTR_SKIP | EXTR_REFS);
+            extract(self::$_globalData->asArray(), EXTR_SKIP | EXTR_REFS);
         }
 
         // Import the view variables to local namespace
@@ -141,28 +143,6 @@ class View {
     }
 
     /**
-     * Sets a global variable, similar to [View::set], except that the
-     * variable will be accessible to all views.
-     *
-     *     View::global(['name' => 'value']); // Set
-     *     View::global('name', 'value'); // Set
-     *     View::global('name'); // Get
-     *
-     * @param   string or array  $key    variable name or an array of variables
-     * @param   mixed            $value  value
-     * @return  void on set or mixed on get
-     */
-    public static function global ($key, $value = NULL) {
-        if (is_array ($key)) {
-            foreach ($key as $key2 => $value) {
-                self::$_globalData[$key2] = $value;
-            }
-        } else {
-            self::$_globalData[$key] = $value;
-        }
-    }
-
-    /**
      * Renders the view object to a string. Global and local data are merged
      * and extracted to create local variables within the view file.
      *
@@ -176,7 +156,8 @@ class View {
      * @throws  View_Exception
      * @uses    View::capture
      */
-    public function render () {
+    public function render()
+    {
         if (empty ($this->_file)) {
             throw new \ErrorException('You must set the file to use within your view before rendering');
         }

@@ -2,25 +2,20 @@
 
 namespace Koz;
 
-use \Koz\Exception;
-use \Koz\HTTP;
-use \Koz\Response;
-use \Koz\Router;
-
-class Core {
+final class Core {
     const VERSION  = '1.0.0';
     const CODENAME = 'ão';
 
     public static $baseURL;
     public static $uri;
-    public static $charset  = 'utf-8';
-    public static $env      = Env::PRODUCTION;
-    private static $_modules = [];
+    public static $charset      = 'utf-8';
+    public static $env          = Env::PRODUCTION;
+    private static $_modules    = [];
 
     public static function init () {
-        set_error_handler('\Koz\Core::handleError');
-        set_exception_handler('\Koz\Core::handleException');
-        register_shutdown_function('\Koz\Core::handleShutdown');
+        //set_error_handler('\Koz\Core::handleError');
+        //set_exception_handler('\Koz\Core::handleException');
+        //register_shutdown_function('\Koz\Core::handleShutdown');
 
         if (function_exists('mb_internal_encoding')) {
             // Set the MB extension encoding to the same character set
@@ -36,6 +31,7 @@ class Core {
 
         if (!($info = Router::parse(self::$uri) AND Request::make($info['uri'], $info['method'], $info['defaults'], $info['params']))) {
             HTTP::status(404);
+            Response::body(View::make('errors/404')->render());
         }
 
         // Go back to the previous handlers
@@ -105,7 +101,7 @@ class Core {
         }
 
         // Do not execute the PHP error handler
-        return TRUE;
+        return true;
     }
 
     public static function handleShutdown() {
