@@ -2,7 +2,7 @@
 
 namespace Koz;
 
-use \Koz\Helpers\Arr;
+use \Helpers\Arr;
 
 class Input {
     public static function GET ($key, $default = NULL) {

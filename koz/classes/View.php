@@ -67,7 +67,7 @@ class View extends Data
     /**
      * Get reference of global variables
      *
-     *      View::globalVars()->key
+     *      View::globals()->key
      *
      * @return  Data
      */

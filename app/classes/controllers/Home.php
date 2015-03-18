@@ -15,21 +15,27 @@ use \Koz\View;
 use \Koz\Data;
 
 class Home extends Controller {
-    public function POST_index () {
-        echo 'BBBBBBBBBBBBBBBBBB'. "\n";
-        echo Request::param('action')."\n";
-        echo Request::param('id', 'NADA')."\n";
-        echo Input::GET('teste', 'Não tem')."\n";
+    public function GET_index () {
+        $response = 'BBBBBBBBBBBBBBBBBB'. "<br />";
+        $response .= Request::param('controller')."<br />";
+        $response .= Request::param('action')."<br />";
+        $response .= Request::param('id', '123')."<br />";
+        $response .= Input::GET('teste', 'Não tem')."<br />";
+        Response::body($response);
     }
 
     public function REQUEST_index () {
         $test = new Data(['path1' => ['path2' => 'ASD']]);
+
         $test->set('path1.path2', 'REPLACED');
+        $test->get('path1.path2');
+
         Response::body(\Helpers\Debug::vars($test));
 
         Messages::$lang = 'en-us';
         View::globals()->varGlobal = Messages::load('validation')->get('required');
         $this->template->content->varLocal = 'Test Local';
+
 
         // $q = new DB;
 
