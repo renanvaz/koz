@@ -44,8 +44,9 @@ Koz\Core::modules([
 
 /**
  * Set the application Env.
- * @param: String $name - A alias for a route
- * @param: String $routeMatch - A regexpr to math the route
- * @param: String $defaultValues - Default values for missing parameters on the URI
+ * @param: string $name - A alias for a route
+ * @param: string $routeMatch - A regexpr to math the route
+ * @param: string $defaultValues - Default values for missing parameters on the URI
+ * @param: string $paramRules - Regex rules for match acceptable values for params on URI
  */
 Koz\Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index'], ['id' => '[0-9]+']);
