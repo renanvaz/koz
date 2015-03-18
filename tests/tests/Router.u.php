@@ -1,15 +1,17 @@
 <?php
 
-U::group('Test parser function (Router::parse) with URI "controller/action/param?get=test".', function(){
-    // $_SERVER['SCRIPT_NAME'] = '';
-    // $_SERVER['QUERY_STRING'] = '';
-    // $_SERVER['REQUEST_URI'] = '';
+use \ULib\U;
 
-    \Koz\Core::init();
+U::group('Test parser function (Router::parse) with URI "controller/action/param?get=test".', function(){
+    $_SERVER['SCRIPT_NAME'] = '';
+    $_SERVER['QUERY_STRING'] = '';
+    $_SERVER['REQUEST_URI'] = '';
+
+    //\Koz\Core::init();
 
     Koz\Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'test', 'action' => 'index']);
 
-    $info = \Koz\Router::parse('controller/action/param?get=test');
+    //$info = \Koz\Router::parse('controller/action/param?get=test');
 
     // die(\Helpers\Debug::vars($info));
 
