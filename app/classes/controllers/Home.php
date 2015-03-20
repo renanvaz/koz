@@ -16,12 +16,20 @@ use \Koz\Data;
 
 class Home extends Controller {
     public function GET_index () {
-        $response = 'BBBBBBBBBBBBBBBBBB'. "<br />";
-        $response .= Request::param('controller')."<br />";
-        $response .= Request::param('action')."<br />";
-        $response .= Request::param('id', '123')."<br />";
-        $response .= Input::GET('teste', 'Não tem')."<br />";
-        Response::body($response);
+        $this->template->content = 'GET'. "<br />";
+        $this->template->content .= Request::param('controller')."<br />";
+        $this->template->content .= Request::param('action')."<br />";
+        $this->template->content .= Request::param('id', '123')."<br />";
+        $this->template->content .= Input::GET('teste', 'Não tem')."<br />";
+    }
+
+    public function POST_index () {
+        $this->template->content = 'POST'. "<br />";
+        $this->template->content .= Request::param('controller')."<br />";
+        $this->template->content .= Request::param('action')."<br />";
+        $this->template->content .= Request::param('id', '123')."<br />";
+        $this->template->content .= Input::GET('teste', 'Não tem GET')."<br />";
+        $this->template->content .= Input::POST('teste', 'Não tem POST')."<br />";
     }
 
     public function REQUEST_index () {

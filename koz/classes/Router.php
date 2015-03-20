@@ -13,8 +13,9 @@ class Router {
      * @param string $name The alias of URI
      * @param string $route The URI mather
      * @param array $defaults The defaults values of params variables
+     * @param: array $rules - Regex rules for match acceptable values for params on URI
      *
-     * @example Router::add('default', ':controller/:action(/:id)', ['controller' => 'teste', 'action' => 'index']);
+     * @example Router::add('default', ':controller/:action(/:id)', ['controller' => 'teste', 'action' => 'index'], ['id' => '[0-9]+']);
      */
 
     static public function add ($name, $route, Array $defaults = [], Array $rules = []) {
