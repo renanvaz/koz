@@ -3,7 +3,7 @@
 namespace Koz;
 
 class Router {
-    const REGEX_VALID_CHARACTERS     = '[a-zA-Z0-9_-]+';
+    const REGEX_VALID_CHARACTERS = '[a-zA-Z0-9_-]+';
 
     static private $_routes = [];
 
@@ -18,7 +18,7 @@ class Router {
      * @example Router::add('default', ':controller/:action(/:id)', ['controller' => 'teste', 'action' => 'index'], ['id' => '[0-9]+']);
      */
 
-    static public function add ($name, $route, Array $defaults = [], Array $rules = []) {
+    static public function add ($name, $route, array $defaults = [], array $rules = []) {
         $defaultRegex = self::REGEX_VALID_CHARACTERS;
 
         self::$_routes[$name] = [
@@ -38,8 +38,13 @@ class Router {
     static public function parse ($uri) {
         foreach (self::$_routes as $name => $data) {
             if (preg_match('!^'.$data['regex'].'$!', $uri, $matches)) {
-                // Testar qual valor fica como default
-                return ['uri' => $uri, 'method' => $_SERVER['REQUEST_METHOD'], 'defaults' => $data['defaults'], 'params' => $matches];
+                foreach ($matches as $key => $value) {
+                    if (is_int($key)) {
+                        unset($matches[$key]);
+                    }
+                }
+
+                return ['route' => $name, 'uri' => $uri, 'params' => $matches, 'defaults' => $data['defaults']];
             }
         }
 

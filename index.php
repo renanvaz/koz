@@ -21,3 +21,6 @@ require SYS_PATH.'bootstrap.php';
 // if (file_exists('install.php')) {
 //  return include 'install.php';
 // }
+
+// Init the Koz
+Koz\Core::init();

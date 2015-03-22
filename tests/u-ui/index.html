@@ -16,11 +16,14 @@
 <body>
     <!-- Main structure -->
     <main id="app">
+        <header>
+            <h1 class="logo"><img src="img/logo.png" /></h1>
+        </header>
         <section id="summary">
-            <h1>{{ (uReport.summary.asserts.ok + uReport.summary.asserts.nok) }} asserts</h1>
+            <h1>Total of {{ (uReport.summary.asserts.ok + uReport.summary.asserts.nok) }} asserts</h1>
             <div class="bar">
-                <div class="ok" v-style="styleOk">{{ uReport.summary.asserts.ok }}</div>
-                <div class="nok" v-style="styleNok">{{ uReport.summary.asserts.nok }}</div>
+                <div class="ok" v-style="styleOk" title="{{ uReport.summary.asserts.ok }} asserts passed">{{ uReport.summary.asserts.ok }}</div>
+                <div class="nok" v-style="styleNok" title="{{ uReport.summary.asserts.nok }} asserts failed">{{ uReport.summary.asserts.nok }}</div>
             </div>
         </section>
         <section id="tests">

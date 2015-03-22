@@ -1,25 +1,6 @@
 <?php
 
 /**
- * Set the default time zone.
- *
- * @link http://www.php.net/manual/timezones
- */
-date_default_timezone_set('America/Chicago');
-
-/**
- * Set the default locale.
- *
- * @link http://www.php.net/manual/function.setlocale
- */
-setlocale(LC_ALL, 'pt_BR.utf-8');
-
-/**
- * Set the default i18n language.
- */
-Koz\Messages::$lang = 'pt-br';
-
-/**
  * Set the application ENV.
  * Values accepts:
  *     KOZ\Env::PRODUCTION
@@ -28,6 +9,34 @@ Koz\Messages::$lang = 'pt-br';
  *     KOZ\Env::DEVELOPMENT
  */
 Koz\Core::$env = constant('Koz\Env::'.strtoupper($_SERVER['ENV']));
+
+/**
+ * Set the default charset.
+ */
+Koz\Core::$charset = 'utf-8';
+
+/**
+ * Set the default locale.
+ * Accepts string or array value.
+ *
+ * Koz\Core::$locale = 'pt_BR.utf8';
+ * Koz\Core::$locale = ['pt_BR.utf8', 'pt_BR.UTF-8'];
+ *
+ * @link http://www.php.net/manual/function.setlocale
+ */
+Koz\Core::$locale = 'pt_BR.utf8';
+
+/**
+ * Set the default time zone.
+ *
+ * @link http://www.php.net/manual/timezones
+ */
+Koz\Core::$timezone = 'America/Sao_Paulo';
+
+/**
+ * Set the default i18n language.
+ */
+Koz\Messages::$lang = 'pt-br';
 
 /**
  * Enable modules.
@@ -50,15 +59,3 @@ Koz\Core::modules([
  * @param: array $paramRules - Regex rules for match acceptable values for params on URI
  */
 Koz\Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index'], ['id' => '[0-9]+']);
-
-
-/*
-Koz\Router::add('name')
-        ->match('(:controller(/:action(/:id)))')
-        ->defaults(['controller' => 'home', 'action' => 'index'])
-        ->rules(['id' => '[0-9]+']));
-
-Koz\Router::add('name', '(:controller(/:action(/:id)))')
-        ->defaults(['controller' => 'home', 'action' => 'index'])
-        ->rules(['id' => '[0-9]+']));
- */

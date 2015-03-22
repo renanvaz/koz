@@ -6,66 +6,82 @@ use \Helpers\Arr;
 
 class Input {
     public static function GET($key = NULL, $default = NULL) {
+        $_GET = Request::input('GET');
+
         if (is_null($key)) {
-            return Request::$_GET;
+            return $_GET;
         } else {
-            return Arr::get(Request::$_GET, $key, $default);
+            return Arr::get($_GET, $key, $default);
         }
     }
 
     public static function POST($key = NULL, $default = NULL) {
+        $_POST = Request::input('POST');
+
         if (is_null($key)) {
-            return Request::$_POST;
+            return $_POST;
         } else {
-            return Arr::get(Request::$_POST, $key, $default);
+            return Arr::get($_POST, $key, $default);
         }
     }
 
     public static function PUT($key = NULL, $default = NULL) {
+        $_PUT = Request::input('PUT');
+
         if (is_null($key)) {
-            return Request::$_PUT;
+            return $_PUT;
         } else {
-            return Arr::get(Request::$_PUT, $key, $default);
+            return Arr::get($_PUT, $key, $default);
         }
     }
 
     public static function DELETE($key = NULL, $default = NULL) {
+        $_DELETE = Request::input('DELETE');
+
         if (is_null($key)) {
-            return Request::$_DELETE;
+            return $_DELETE;
         } else {
-            return Arr::get(Request::$_DELETE, $key, $default);
+            return Arr::get($_DELETE, $key, $default);
         }
     }
 
     public static function OPTIONS($key = NULL, $default = NULL) {
+        $_OPTIONS = Request::input('OPTIONS');
+
         if (is_null($key)) {
-            return Request::$_OPTIONS;
+            return $_OPTIONS;
         } else {
-            return Arr::get(Request::$_OPTIONS, $key, $default);
+            return Arr::get($_OPTIONS, $key, $default);
         }
     }
 
     public static function TRACE($key = NULL, $default = NULL) {
+        $_TRACE = Request::input('TRACE');
+
         if (is_null($key)) {
-            return Request::$_TRACE;
+            return $_TRACE;
         } else {
-            return Arr::get(Request::$_TRACE, $key, $default);
+            return Arr::get($_TRACE, $key, $default);
         }
     }
 
     public static function CONNECT($key = NULL, $default = NULL) {
+        $_CONNECT = Request::input('CONNECT');
+
         if (is_null($key)) {
-            return Request::$_CONNECT;
+            return $_CONNECT;
         } else {
-            return Arr::get(Request::$_CONNECT, $key, $default);
+            return Arr::get($_CONNECT, $key, $default);
         }
     }
 
     public static function HEAD($key = NULL, $default = NULL) {
+        $_HEAD = Request::input('HEAD');
+
         if (is_null($key)) {
-            return Request::$_HEAD;
+            return $_HEAD;
         } else {
-            return Arr::get(Request::$_HEAD, $key, $default);
+            return Arr::get($_HEAD, $key, $default);
         }
     }
 
