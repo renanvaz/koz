@@ -58,4 +58,4 @@ Koz\Core::modules([
  * @param: array $defaultValues - Default values for missing parameters on the URI
  * @param: array $paramRules - Regex rules for match acceptable values for params on URI
  */
-Koz\Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index'], ['id' => '[0-9]+']);
+Koz\Router::set('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index'], ['id' => '[0-9]+']);
