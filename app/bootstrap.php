@@ -8,7 +8,7 @@
  *     KOZ\Env::TESTING
  *     KOZ\Env::DEVELOPMENT
  */
-Koz\Core::$env = constant('Koz\Env::'.strtoupper($_SERVER['ENV']));
+Koz\Core::$env = isset($_SERVER['ENV']) ? constant('Koz\Env::'.strtoupper($_SERVER['ENV'])) : Koz\Env::DEVELOPMENT;
 
 /**
  * Set the default charset.
@@ -58,4 +58,4 @@ Koz\Core::modules([
  * @param: array $defaultValues - Default values for missing parameters on the URI
  * @param: array $paramRules - Regex rules for match acceptable values for params on URI
  */
-Koz\Router::set('default', '(:controller(/:action(/:id)))', ['controller' => 'home', 'action' => 'index'], ['id' => '[0-9]+']);
+Koz\Router::set('default', '(:controller(/:action/:id))', ['controller' => 'home', 'action' => 'index'], ['id' => '[0-9]+']);
