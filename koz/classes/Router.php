@@ -42,7 +42,6 @@ class Router {
 
         $uriParams = [];
         $uriParamsOptionals = [];
-
         $groups = [];
 
         self::getGroups($uri, $groups);
