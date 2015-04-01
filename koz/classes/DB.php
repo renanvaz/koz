@@ -293,6 +293,8 @@ class DB
      */
     public function limit($number)
     {
+        $this->_queryParts['limit'] = (int) $number;
+
         return $this;
     }
 
@@ -304,6 +306,8 @@ class DB
      */
     public function offset($number)
     {
+        $this->_queryParts['offset'] = (int) $number;
+
         return $this;
     }
 
@@ -408,7 +412,7 @@ class DB
      * @throws Kohana_Exception
      * @return ORM
      */
-    public function find()
+    public function find($id = null)
     {
         return $this->_load_result(FALSE);
     }
@@ -419,8 +423,12 @@ class DB
      * @throws Kohana_Exception
      * @return Database_Result
      */
-    public function find_all()
+    public function all($limit = null, $offset = null)
     {
+        if (!is_null($limit)) {
+
+        }
+
         return $this->_load_result(TRUE);
     }
 
@@ -430,7 +438,7 @@ class DB
      * @throws Kohana_Exception
      * @return Database_Result
      */
-    public function delete_all()
+    public function delete()
     {
         return $this->_load_result(TRUE);
     }
