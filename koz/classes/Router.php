@@ -19,11 +19,10 @@ class Router {
      */
     static public function set($name, $route, array $defaults = [], array $rules = [])
     {
-        $defaultRegex = self::REGEX_VALID_CHARACTERS;
-
         self::$_routes[$name] = [
-            'regex'    => preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($rules, $defaultRegex) { return '(?P<'.$matches[1].'>'.(\Helpers\Arr::get($rules, $matches[1], $defaultRegex)).')'; }, preg_replace('!\)!', ')?', $route)),
+            'route' => $route,
             'defaults' => $defaults,
+            'rules' => $rules,
         ];
     }
 
@@ -39,10 +38,7 @@ class Router {
     {
         $defaultRegex = self::REGEX_VALID_CHARACTERS;
 
-        self::$_routes[$name] = [
-            'regex'    => preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($rules, $defaultRegex) { return '(?P<'.$matches[1].'>'.(\Helpers\Arr::get($rules, $matches[1], $defaultRegex)).')'; }, preg_replace('!\)!', ')?', $route)),
-            'defaults' => $defaults,
-        ];
+        $regex = preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($data, $defaultRegex) { return '(?P<'.$matches[1].'>'.(\Helpers\Arr::get($data['rules'], $matches[1], $defaultRegex)).')'; }, preg_replace('!\)!', ')?', $route));
     }
 
     /**
@@ -54,8 +50,12 @@ class Router {
      */
     static public function parse ($uri)
     {
+        $defaultRegex = self::REGEX_VALID_CHARACTERS;
+
         foreach (self::$_routes as $name => $data) {
-            if (preg_match('!^'.$data['regex'].'$!', $uri, $matches)) {
+            $regex = preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($data, $defaultRegex) { return '(?P<'.$matches[1].'>'.(\Helpers\Arr::get($data['rules'], $matches[1], $defaultRegex)).')'; }, preg_replace('!\)!', ')?', $route));
+
+            if (preg_match('!^'.$regex.'$!', $uri, $matches)) {
                 foreach ($matches as $key => $value) {
                     if (is_int($key)) {
                         unset($matches[$key]);
