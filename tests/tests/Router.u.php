@@ -4,8 +4,8 @@ use \ULib\U;
 use \Koz\Router;
 use \Helpers\Debug;
 
-// U::group('Test "Router::set" function.', "Router::set('default', 'user/list')", function(){
-//     $uri = 'user/list';
+// U::group('Test "Router::set" function.', "Router::set('default', 'test/uri')", function(){
+//     $uri = 'test/uri';
 //     Router::set('default', $uri);
 
 //     U::assert('The uri for get "default" route must be "'.$uri.'"', Router::get('default') === $uri);
@@ -27,7 +27,8 @@ U::group('Test "Router::get" function.', "Router::get('default', ['controller' =
 });
 
 U::group('Test "Router::parse" function.', 'Router::parse(string $uri)', function(){
-    Router::set('default', '(:controller(/:action(/:id)))');
+    Router::set('default', 'test/uri');
+    U::assert('The uri for get "default" route must be "user/list"', Router::get('default') === 'user/list');
 });
 
 // U::group('Router::add(\'default\', \'(:controller(/:action(/:id)))\');', function(){
