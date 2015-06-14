@@ -97,6 +97,7 @@ class Router {
         $defaultRegex = self::REGEX_VALID_CHARACTERS;
 
         foreach (self::$_routes as $name => $data) {
+
             $route = $data['route'];
             $rules = $data['rules'];
             $defaults = $data['defaults'];
