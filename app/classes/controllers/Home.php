@@ -13,14 +13,11 @@ use \Koz\Response;
 use \Koz\Request;
 use \Koz\View;
 use \Koz\Data;
+use \Koz\Router;
 
 class Home extends Controller {
     public function GET_index () {
-        $this->template->content = 'GET'. "<br />";
-        $this->template->content .= Request::param('controller')."<br />";
-        $this->template->content .= Request::param('action')."<br />";
-        $this->template->content .= Request::param('id', '123')."<br />";
-        $this->template->content .= Input::GET('teste', 'Não tem')."<br />";
+        $this->template->content = Router::get('default', ['controller' => 'c', 'action' => 'a', 'id' => '1']);
     }
 
     public function POST_index () {

@@ -22,42 +22,42 @@ Cada um deles possui features que considero interessantes e outras que não, jun
 
 ### TODO
 
-!! Autoloader
-! Core
-!! Controller
-!! ControllerRest
-!! Env
-!! Exception
-! HTTP
-!! Input
-- MiddleWare
+!! Autoloader  
+! Core  
+!! Controller  
+!! ControllerRest  
+!! Env  
+!! Exception  
+! HTTP  
+!! Input  
+- MiddleWare  
 
-!! Config
-!! Messages/i18n
-- Inflector
+!! Config  
+!! Messages/i18n 
+- Inflector  
 
-! ORM (Opção transacional, dar a opção de fechar a conexão com o banco tb)
-- Model
+! ORM (Opção transacional, dar a opção de fechar a conexão com o banco tb)  
+- Model  
 
-!! Request
-! Response
-!! Router
-- Server
-!! View
+!! Request  
+! Response  
+!! Router  
+- Server  
+!! View  
 
-- Log
-- Cache
-- Crypt
-- Session
-- Cookie
-- Validation
+- Log  
+- Cache  
+- Crypt  
+- Session  
+- Cookie  
+- Validation  
 
-- Image
-- Assets (Assetic?)
+- Image  
+- Assets (Assetic?)  
 
-- Tests
-- Modules
-- Documentation
+- Tests  
+- Modules  
+- Documentation  
 
-- Security REQUEST variables
-- Security of DB queries
+- Security REQUEST variables  
+- Security of DB queries  

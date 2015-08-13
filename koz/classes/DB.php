@@ -10,7 +10,6 @@ class Where
     }
 }
 
-
 class DBExpr
 {
     private $_expr;
