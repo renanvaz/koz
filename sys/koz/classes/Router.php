@@ -65,8 +65,8 @@ class Router {
            $uri = preg_replace('!:'.$key.'!', $value, $uri);
         }
 
-        foreach ($params as $key => $value) {
-           $uri = preg_replace('!:'.$key.'!', $value, $uri);
+        foreach ($uriParamsMissing as $key) {
+            $uri = preg_replace('!(/:'.$key.')!', '', $uri);
         }
 
         return $uri;
