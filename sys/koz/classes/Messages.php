@@ -20,3 +20,5 @@ class Messages {
         return Config::load('messages/'.$lang.'/'.$filename);
     }
 }
+
+// Text::parse('Olá :name!', [':name' => 'Renan']);

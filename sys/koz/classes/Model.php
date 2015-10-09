@@ -13,9 +13,9 @@ class Model {
      * Relationships
      * @var array
      */
-    protected $_hasOne = array();
-    protected $_belongsTo = array();
-    protected $_hasMany = array();
+    protected $_hasOne = [];
+    protected $_belongsTo = [];
+    protected $_hasMany = [];
 
     /**
      * Table info
