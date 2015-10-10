@@ -61,3 +61,52 @@ Cada um deles possui features que considero interessantes e outras que não, jun
 
 - Security REQUEST variables
 - Security of DB queries
+
+
+## Koz is a very well integration for Requests, controllers and views
+Routes
+Parse
+
+Controller
+    Request
+        Input
+
+    Middlewhere
+
+    Before
+    Action
+    After
+
+    Response
+        Headers
+        Body
+            HTML
+            RAW
+            JSON
+            DOWLOAD
+            FILE
+Model
+    Migrations
+    ORM
+View
+    Template parser engine
+        PHP
+        ...
+
+Queue
+Data
+    Config
+        Mensages
+            i18n
+Assets
+Cache
+Crypt
+
+Helpers
+    ...
+Modules
+    ...
+
+INFO
+    ENV
+    HTTP

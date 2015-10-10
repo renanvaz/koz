@@ -20,3 +20,18 @@ class Messages {
         return Config::load('messages/'.$lang.'/'.$filename);
     }
 }
+
+
+class Text {
+    private static $_string = '';
+
+    public static function parse(array $data){
+        $string = self::$_string;
+
+        foreach ($data as $key => $value) {
+            $string = preg_replace('/'.$key.'/', $value, $string);
+        }
+
+        return $string;
+    }
+}
