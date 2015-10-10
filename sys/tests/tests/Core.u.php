@@ -3,9 +3,9 @@
 use \ULib\U;
 
 U::group('Test parser function (Router::parse) with URI "controller/action/param?get=test".', function(){
-    init
-    find
-    modules
+    // init
+    // find
+    // modules
 
 
     //Koz\Router::add('default', '(:controller(/:action(/:id)))', ['controller' => 'test', 'action' => 'index']);

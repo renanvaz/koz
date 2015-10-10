@@ -72,8 +72,8 @@ class Router {
         return $uri;
     }
 
-    static private function getGroups($uri, &$groups) {
-
+    static private function getGroups($uri, &$groups)
+    {
         $match = preg_replace('!(^\(|\)$)!', '', preg_replace('![^\(]*(\(.+\))[^\)]*!', '$1', $uri));
 
         if (strpos($match, '(') !== false) {
@@ -97,7 +97,6 @@ class Router {
         $defaultRegex = self::REGEX_VALID_CHARACTERS;
 
         foreach (self::$_routes as $name => $data) {
-
             $route = $data['route'];
             $rules = $data['rules'];
             $defaults = $data['defaults'];
