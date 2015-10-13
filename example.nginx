@@ -1,0 +1,22 @@
+# nginx configuration
+location /app {
+    rewrite ^/(?:app|sys|vendor)\b.* /index.php/$0 break;
+}
+
+location /sys {
+    rewrite ^/(?:app|sys|vendor)\b.* /index.php/$0 break;
+}
+
+location /vendor {
+    rewrite ^/(?:app|sys|vendor)\b.* /index.php/$0 break;
+}
+
+location / {
+    if (!-e $request_filename){
+        rewrite ^(.*)$ /index.php/$0 break;
+    }
+}
+
+location ~ \.* {
+    deny all;
+}

@@ -21,8 +21,6 @@ class Messages {
     }
 }
 
-<<<<<<< HEAD
-
 class Text {
     private static $_string = '';
 
@@ -36,6 +34,5 @@ class Text {
         return $string;
     }
 }
-=======
+
 // Text::parse('Olá :name!', [':name' => 'Renan']);
->>>>>>> fbebe41b4d1f528b54aa22ce08d2971b9805e72c

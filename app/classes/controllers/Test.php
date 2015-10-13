@@ -11,7 +11,7 @@ class Test extends Controller {
     public function REQUEST_index () {
         //Messages::$lang = 'en-us';
 
-        Response::body(Messages::get('validation', 'required', 'pt-br'));
+        Response::body(Messages::load('validation', 'pt-br')->get('required'));
     }
 
 }
