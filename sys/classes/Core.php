@@ -8,26 +8,30 @@ final class Core
     const CODENAME = 'ão';
 
     public static $baseURL;
+
     public static $charset;
     public static $locale;
     public static $timezone;
     public static $env;
+    public static $debug;
 
-    private static $_modules    = [];
+    private static $_modules = [];
 
     public static function init()
     {
+        // Set error handlers
         set_error_handler('\Koz\Handle::error');
         set_exception_handler('\Koz\Handle::exception');
         register_shutdown_function('\Koz\Handle::shutdown');
 
+        // Get Base URL from SCRIPT_NAME
         self::$baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
+
+        // Get URI from REQUEST_URI
         $uri = preg_replace(['!'.self::$baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
-        if (!($info = Router::parse($uri) AND Request::make($_SERVER['REQUEST_METHOD'], $info['uri'], $info['params'], $info['defaults']))) {
-            HTTP::status(404);
-            Response::body(View::make('errors/404')->render());
-        }
+        Request::make($_SERVER['REQUEST_METHOD'], $uri);
+        echo Response::render();
 
         // Go back to the previous handlers
         restore_error_handler();

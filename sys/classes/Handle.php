@@ -27,8 +27,9 @@ class Handle {
 
         fclose($handle);
 
-        HTTP::status(500);
+        Response::status(500);
         Response::body(View::make('errors/debug', ['message' => $message, 'file' => str_replace(PRIVATE_PATH, '', $file), 'line' => $line, 'snippet' => $snippet, 'trace' => $trace])->render());
+        echo Response::render();
     }
 
     public static function error($code, $error = '', $file = '', $line = '') {

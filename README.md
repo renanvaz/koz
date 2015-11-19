@@ -1,112 +1,46 @@
 # Koz framework
 
-Koz é um framework PHP inspirado em alguns dos melhores frameworks PHP atuais. Dentre eles posso citar o Kohana, Slim, Laravel e CakePHP.
-Cada um deles possui features que considero interessantes e outras que não, juntei com minhas idéias e surgiu o Koz.
+O Koz não é apenas um pacote de ferramentas, a idéia principal é oferecer uma proposta única de estrura para aplicações web.
+Características:
+- Planejado e estruturado para aplicações web
+- Fácil de aprender, simples de utilizar. Você não vai esquecer
+- Contruído numa interface simples de programação onde a nomenclatura de cada componente do framework é pensado para ser o mais intuítivo e menos verboso possível
+- Preparado para atuar junto com tasks runners, como o Grunt e Gulp
 
-## Objetivos
+O Koz é exatamente o que você precisa hoje.
 
-- Simplicidade.
-- Performance.
-- Minimalista.
-- Garantir que qualquer pessoa que conheça o framework possa editar fácilmente um código de terceiro.
+## Um padrão, padrão.
 
-## Como chegar neste resultado
+Oferecer um set grande de ferramentas é interessante, mas não é essa a proposta do Koz.
+Acreditamos que oferecer multiplas opções ou diversas formas de se fazer o mesmo, possa gerar alguns resultados insatisfatórios, como por exemplo:
+- Ter opções para obter um mesmo resultado, pode trazer mais dúvidas do que respostas
+- Conhecer o framework utilizado não lhe dá garantia que você saberá mexer em outros sistemas desenvolvidos com o mesmo framework
+- Se precisar fazer uma manutenção em um sistema que não foi desenvolvido por você ou por sua equipe. Você poderá encontrar padrões diferentes do que prefere, ai o código começa a ficar "aquela bagunça"
+...
 
-- Criar um sistema de MVC eficiente.
-- Criar uma API de fácil assimilação e com palavras simples.
-- Criar um sistema de ORM completo e cognitivo.
-- Possibilitar a injeção de modulos autônomos.
-- Criar Helpers que realmente sejam úteis.
-- Não criar infinitas formas de se fazer o mesmo.
+## Design pattern
 
+Acreditamos que um código bem escrito é feito para pessoas interpretarem.
+O comentário no código não deve "traduzir" o código. Ele deve explicar a sua linha de pensamento.
+Um bom código é legível, não é verboso.
 
-### TODO
+Um exemplo de quando um comentário é necessário, mas por conta de um código "mal escrito".
+    /**
+     * Valor da tangente
+     */
+    $t = 1;
 
-!! Autoloader
-! Core
-!! Controller
-!! ControllerRest
-!! Env
-!! Exception
-! HTTP
-!! Input
-- MiddleWare
+Um exemplo de quando um código é verboso, e o comentário desnecessário:
+    /**
+     * Valor da tangente
+     */
+    $valorDaTangente = 1;
 
-!! Config
-!! Messages/i18n
-- Inflector
-
-! ORM (Opção transacional, dar a opção de fechar a conexão com o banco tb)
-- Model
-
-!! Request
-! Response
-!! Router
-- Server
-!! View
-
-- Log
-- Cache
-- Crypt
-- Session
-- Cookie
-- Validation
-
-- Image
-- Assets (Assetic?)
-
-- Tests
-- Modules
-- Documentation
-
-- Security REQUEST variables
-- Security of DB queries
+Ohhh, agora sim:
+    /**
+     * Valor da tangente que será utilizada
+     * para calcular o cateto oposto
+     */
+    $tangente = 1;
 
 
-## Koz is a very well integration for Requests, controllers and views
-Routes
-Parse
-
-Controller
-    Request
-        Input
-
-    Middlewhere
-
-    Before
-    Action
-    After
-
-    Response
-        Headers
-        Body
-            HTML
-            RAW
-            JSON
-            DOWLOAD
-            FILE
-Model
-    Migrations
-    ORM
-View
-    Template parser engine
-        PHP
-        ...
-
-Queue
-Data
-    Config
-        Mensages
-            i18n
-Assets
-Cache
-Crypt
-
-Helpers
-    ...
-Modules
-    ...
-
-INFO
-    ENV
-    HTTP
