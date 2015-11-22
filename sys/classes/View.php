@@ -88,7 +88,11 @@ class View extends Data
      */
     public function __toString()
     {
-        return $this->render();
+        try {
+            return $this->render();
+        } catch (\Koz\Exception $e) {
+            return $e->render();
+        }
     }
 
     /**
@@ -158,7 +162,7 @@ class View extends Data
      */
     public function render()
     {
-        if (empty ($this->_file)) {
+        if (empty($this->_file)) {
             throw new \ErrorException('You must set the file to use within your view before rendering');
         }
 

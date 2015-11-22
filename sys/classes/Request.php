@@ -4,6 +4,7 @@ namespace Koz;
 
 use \Koz\Router;
 use \Helpers\Text;
+use \Helpers\Arr;
 use \Helpers\Debug;
 
 // isMobile
@@ -13,40 +14,38 @@ use \Helpers\Debug;
 
 class Request
 {
-    private static $_uri;
     private static $_params;
-    private static $_defaults;
     private static $_vars; // Request method vars: $_GET, $_POST...
     private static $_server; // Request server vars: $_SERVER
 
-    private static $_method;
-    private static $_controller;
-    private static $_action;
+    public static $route;
+    public static $uri;
+    public static $method;
+    public static $controller;
+    public static $action;
 
     public static function make($method, $uri)
     {
-        self::$_method      = $method;
-        self::$_uri         = $uri;
+        self::$method      = $method;
+        self::$uri         = $uri;
 
-        define('Request::METHOD', $method);
-
-        if ($info = Router::parse($uri)) {
+        if ($info = Route::matcher($uri)) {
             self::$_params      = $info['params'];
-            self::$_defaults    = $info['defaults'];
+            self::$route        = $info['route'];
 
             self::$_vars        = [
                 'GET'          => Input::parse('GET'),
-                self::$_method => Input::parse(self::$_method),
+                self::$method => Input::parse(self::$method),
             ];
 
-            self::$_controller   = Text::studlyCaps(self::param('controller'));
-            self::$_action       = Text::camelCase(self::param('action'));
+            self::$controller   = Text::studlyCaps(self::param('controller'));
+            self::$action       = Text::camelCase(self::param('action'));
 
-            $class = 'Controllers\\'.self::$_controller;
-            $action = self::$method.'_'.self::$_action;
+            $class = 'Controllers\\'.self::$controller;
+            $action = self::$method.'_'.self::$action;
 
             // Check if the Controller has a action for this request
-            if (method_exists($controller, $action) OR method_exists($controller, $action = 'REQUEST_'.self::$_action)) {
+            if (method_exists($class, $action) OR method_exists($class, $action = 'REQUEST_'.self::$action)) {
                 // TODO: Call before middlewares
 
                 $controller = new $class();
@@ -67,31 +66,15 @@ class Request
         }
     }
 
-    // Return data readonly
-    public static function method()
-    {
-        return self::$_method;
-    }
-
-    public static function controller()
-    {
-        return self::$_controller;
-    }
-
-    public static function action()
-    {
-        return self::$_action;
-    }
-
     // Helpers
     public static function input($type)
     {
-        return isset(self::$_vars[$type]) ? self::$_vars[$type] : [];
+        return Arr::get(self::$_vars, $type, []);
     }
 
     public static function param($name, $default = NULL)
     {
-        return isset(self::$_params[$name]) ? self::$_params[$name] : (isset(self::$_defaults[$name]) ? self::$_defaults[$name] : $default);
+        return Arr::get(self::$_params, $name, $default);
     }
 
     public static function isHTTPS()

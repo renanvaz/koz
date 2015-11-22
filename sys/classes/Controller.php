@@ -7,7 +7,7 @@ use \Koz\Response;
 
 abstract class Controller {
 
-    public $template = 'partials/template/base';
+    public $template    = 'partials/base';
 
     /**
      * Automatically executed before the controller action. Can be used to set
@@ -17,8 +17,8 @@ abstract class Controller {
      */
     public function before () {
         $this->template             = View::make($this->template);
-        $this->template->header     = View::make('partials/template/header');
-        $this->template->footer     = View::make('partials/template/footer');
+        $this->template->header     = View::make('partials/header');
+        $this->template->footer     = View::make('partials/footer');
 
         $filename = Text::deCamelCase(Request::$controller.'/'.Request::$action);
 
@@ -36,6 +36,6 @@ abstract class Controller {
      * @return  void
      */
     public function after () {
-        Response::body($this->template);
+        Response::body(is_string($this->template) ? $this->template : $this->template->render());
     }
 }

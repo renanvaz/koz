@@ -13,11 +13,14 @@ use \Koz\Response;
 use \Koz\Request;
 use \Koz\View;
 use \Koz\Data;
-use \Koz\Router;
+use \Koz\Route;
 
 class Home extends Controller {
     public function GET_index () {
-        $this->template->content = Router::get('default', ['controller' => 'c', 'action' => 'a', 'id' => '1']);
+        View::globals()->varGlobal = 'Test Global';
+        $this->template->content->varLocal = 'Test Local';
+
+        // $this->template->content = Route::get('default')->uri(['controller' => 'c', 'action' => 'a', 'id' => '1']);
     }
 
     public function POST_index () {

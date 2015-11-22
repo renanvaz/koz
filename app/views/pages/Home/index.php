@@ -2,9 +2,9 @@ Index<br />
 <a href="home/index-test">Index test</a><br /><br />
 
 Local variable: <?= $varLocal ?><br />
-Global variable: <?= $varGlobal ?>
+Global variable: <?= $varGlobsal ?>
 <br /><br />
 <?= Koz\Core::$env ?><br />
 <?= Koz\Core::$charset ?><br />
 <?= Koz\Core::$baseURL ?><br />
-<?= Koz\Core::$uri ?>
+<?= Koz\Request::$uri ?>

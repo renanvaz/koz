@@ -52,20 +52,14 @@ Koz\Messages::$lang = 'pt-br';
  */
 Koz\Core::modules([
     'helpers',          // Helpers community maintained.
-    // 'tests',            // Koz unit tests, access by the URI /tests.
-    //'auth',           // Basic authentication.
-    // 'cache',         // Caching with multiple backends.
-    // 'database',      // Database access.
-    // 'orm',           // Object Relationship Mapping.
-    // 'image',         // Image manipulation.
+    // 'tests',         // Koz unit tests, access by the URI /tests.
 ]);
 
 /**
  * Set the application Env.
  * @param: string $name - A alias for a route
  * @param: string $routeMatch - A regexpr to math the route
- * @param: array $defaultValues - Default values for missing parameters on the URI
  * @param: array $paramRules - Regex rules for match acceptable values for params on URI
  */
-Koz\Router::set('default', '(:controller(/:action/:id))', ['id' => '[0-9]+'])
+Koz\Route::set('default', '(:controller(/:action/:id))', ['id' => '[0-9]+'])
     ->defaults(['controller' => 'home', 'action' => 'index']);

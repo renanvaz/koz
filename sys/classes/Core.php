@@ -19,9 +19,29 @@ final class Core
 
     public static function init()
     {
+        if (self::$debug) {
+            ini_set('display_errors', 1);
+            ini_set('display_startup_errors', 1);
+            error_reporting(E_ALL | E_STRICT);
+        }
+
+        if (function_exists('mb_internal_encoding')) {
+            // Set the MB extension encoding to the same character set
+            mb_internal_encoding(self::$charset);
+        }
+
+        if (function_exists('mb_substitute_character')) {
+            mb_substitute_character('none');
+        }
+
+        // Set the default locale.
+        setlocale(LC_ALL, self::$locale);
+
+        // Set the default time zone.
+        date_default_timezone_set(self::$timezone);
+
         // Set error handlers
         set_error_handler('\Koz\Handle::error');
-        set_exception_handler('\Koz\Handle::exception');
         register_shutdown_function('\Koz\Handle::shutdown');
 
         // Get Base URL from SCRIPT_NAME
@@ -30,12 +50,18 @@ final class Core
         // Get URI from REQUEST_URI
         $uri = preg_replace(['!'.self::$baseURL.'!', '!\?'.$_SERVER['QUERY_STRING'].'!'], '', $_SERVER['REQUEST_URI']);
 
-        Request::make($_SERVER['REQUEST_METHOD'], $uri);
+        try {
+            Request::make($_SERVER['REQUEST_METHOD'], $uri);
+        } catch (\Koz\Exception $e) {
+            die('Koz Exception');
+            // Response::status(500);
+            // Response::body(View::make('errors/debug', ['message' => $message, 'file' => str_replace(PRIVATE_PATH, '', $file), 'line' => $line, 'snippet' => $snippet, 'trace' => $trace])->render());
+        }
+
         echo Response::render();
 
         // Go back to the previous handlers
         restore_error_handler();
-        restore_exception_handler();
     }
 
     public static function find($file)

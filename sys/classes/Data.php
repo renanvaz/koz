@@ -64,11 +64,11 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      * Set value from a path string
      * @param  string $path
      * @param  mixed $value
-     * @return mixed
+     * @return void
      */
     public function set ($path, $value)
     {
-        $item = \Helpers\Arr::set($this->_data, $path, $value);
+        \Helpers\Arr::set($this->_data, $path, $value);
     }
 
     /**

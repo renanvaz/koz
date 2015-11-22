@@ -5,7 +5,7 @@ namespace Koz;
 use \Helpers\Arr;
 
 class Input {
-    public static __callStatic($name, $arguments)
+    public static function __callStatic($name, $arguments)
     {
         $name = strtoupper($name);
         $_VAR = Request::input($name);
