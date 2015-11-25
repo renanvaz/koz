@@ -4,7 +4,8 @@ namespace Koz;
 
 use \Helpers\Arr;
 
-class Input {
+class Input
+{
     public static function __callStatic($name, $arguments)
     {
         $name = strtoupper($name);

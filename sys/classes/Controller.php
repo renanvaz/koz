@@ -36,6 +36,8 @@ abstract class Controller {
      * @return  void
      */
     public function after () {
-        Response::body(is_string($this->template) ? $this->template : $this->template->render());
+        if (!Response::render()) {
+            Response::body(is_string($this->template) ? $this->template : $this->template->render());
+        }
     }
 }

@@ -23,6 +23,17 @@ class Home extends Controller {
         // $this->template->content = Route::get('default')->uri(['controller' => 'c', 'action' => 'a', 'id' => '1']);
     }
 
+    public function GET_indexTest () {
+        $this->template->content = 'POST'. "<br />";
+        $this->template->content .= Request::param('controller')."<br />";
+        $this->template->content .= Request::$controller."<br />";
+        $this->template->content .= Request::param('action')."<br />";
+        $this->template->content .= Request::$action."<br />";
+        $this->template->content .= Request::param('id', '123')."<br />";
+        $this->template->content .= Input::GET('teste', 'Não tem GET')."<br />";
+        $this->template->content .= Input::POST('teste', 'Não tem POST')."<br />";
+    }
+
     public function POST_index () {
         $this->template->content = 'POST'. "<br />";
         $this->template->content .= Request::param('controller')."<br />";

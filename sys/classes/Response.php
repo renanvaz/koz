@@ -2,7 +2,8 @@
 
 namespace Koz;
 
-class Response {
+class Response
+{
     private static $_text;
 
     /**
@@ -80,7 +81,7 @@ class Response {
 
         self::header('Content-Description', 'File Transfer');
         self::header('Content-Type', 'application/octet-stream');
-        self::header('Content-Disposition', 'attachment; filename="'.filename.'"');
+        self::header('Content-Disposition', 'attachment; filename="'.$filename.'"');
         self::header('Content-Transfer-Encoding', 'binary');
         self::header('Connection', 'Keep-Alive');
         self::header('Expires', '0');

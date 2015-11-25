@@ -6,7 +6,8 @@ use \Koz\Router;
 use \Helpers\Arr;
 use \Helpers\Debug;
 
-class Route {
+class Route
+{
     const REGEX_VALID_CHARACTERS = '[a-zA-Z0-9_-]+';
 
     /**

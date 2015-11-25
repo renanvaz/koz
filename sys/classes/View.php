@@ -10,7 +10,6 @@ namespace Koz;
  */
 class View extends Data
 {
-
     protected $_file;
 
     // Global view variables

@@ -2,7 +2,7 @@
 
 namespace Koz;
 
-use \Koz\Router;
+use \Koz\Route;
 use \Helpers\Text;
 use \Helpers\Arr;
 use \Helpers\Debug;

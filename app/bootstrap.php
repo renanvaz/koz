@@ -61,5 +61,5 @@ Koz\Core::modules([
  * @param: string $routeMatch - A regexpr to math the route
  * @param: array $paramRules - Regex rules for match acceptable values for params on URI
  */
-Koz\Route::set('default', '(:controller(/:action/:id))', ['id' => '[0-9]+'])
+Koz\Route::set('default', '(:controller(/:action(/:id)))', ['id' => '[0-9]+'])
     ->defaults(['controller' => 'home', 'action' => 'index']);
