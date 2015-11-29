@@ -41,8 +41,8 @@ final class Core
         date_default_timezone_set(self::$timezone);
 
         // Set error handlers
-        set_error_handler('\Koz\Handle::error');
-        register_shutdown_function('\Koz\Handle::shutdown');
+        set_error_handler('\Koz\Core::handleError');
+        register_shutdown_function('\Koz\Core::handleShutdown');
 
         // Get Base URL from SCRIPT_NAME
         self::$baseURL = preg_replace('!/[^\./]+\.php$!', '/', $_SERVER['SCRIPT_NAME']);
@@ -88,6 +88,31 @@ final class Core
     public static function modules(array $list)
     {
         self::$_modules += $list;
+    }
+
+    public static function handleError($code, $error = '', $file = '', $line = '') {
+        if (error_reporting() AND $code) {
+            // This error is not suppressed by current error reporting settings
+            // Convert the error into an Exception
+            throw new \Koz\Exception($error, $file, $line);
+        }
+
+        // Do not execute the PHP error handler
+        return true;
+    }
+
+    public static function handleShutdown() {
+        if ($error = error_get_last()) {
+            // Clean the output buffer
+            ob_get_level() AND ob_clean();
+
+            // Fake an exception for nice debugging
+            $e = new \Koz\Exception($error['message'], $error['file'], $error['line']);
+            echo $e->render();
+
+            // Shutdown now to avoid a "death loop"
+            exit(1);
+        }
     }
 }
 

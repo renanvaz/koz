@@ -24,7 +24,7 @@ class Home extends Controller {
     }
 
     public function GET_indexTest () {
-        $this->template->content = 'POST'. "<br />";
+        $this->template->content = '';
         $this->template->content .= Request::param('controller')."<br />";
         $this->template->content .= Request::$controller."<br />";
         $this->template->content .= Request::param('action')."<br />";

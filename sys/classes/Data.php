@@ -7,9 +7,13 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
     // Array of variables
     protected $_data = [];
 
-    public function __construct(array $data = NULL)
+
+    protected $_readOnly;
+
+    public function __construct(array $data = NULL, $readOnly = false)
     {
-        $data AND $this->_data += $data;
+        $this->_readOnly = $readOnly;
+        $data && $this->_data = $data;
     }
 
     /**
@@ -37,7 +41,9 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      */
     public function unserialize($data)
     {
-        $this->_data = unserialize($data);
+        if (empty($this->_data)) {
+            $this->_data = unserialize($data);
+        }
     }
 
     /**
@@ -68,7 +74,9 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      */
     public function set ($path, $value)
     {
-        \Helpers\Arr::set($this->_data, $path, $value);
+        if (!$this->_readOnly) {
+            \Helpers\Arr::set($this->_data, $path, $value);
+        }
     }
 
     /**
@@ -100,7 +108,9 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      */
     public function __set($key, $value)
     {
-        $this->_data[$key] = $value;
+        if (!$this->_readOnly) {
+            $this->_data[$key] = $value;
+        }
     }
 
     /**
@@ -126,7 +136,9 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      */
     public function __unset($key)
     {
-        unset($this->_data[$key]);
+        if (!$this->_readOnly) {
+            unset($this->_data[$key]);
+        }
     }
 
     /**
@@ -149,6 +161,6 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
      */
     public function __toString()
     {
-        return \Helpers\Debug::vars($this->_data);
+        return \Koz\Helpers\Debug::vars($this->_data);
     }
 }

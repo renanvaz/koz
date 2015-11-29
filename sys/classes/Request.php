@@ -3,9 +3,9 @@
 namespace Koz;
 
 use \Koz\Route;
-use \Helpers\Text;
-use \Helpers\Arr;
-use \Helpers\Debug;
+use \Koz\Helpers\Text;
+use \Koz\Helpers\Arr;
+use \Koz\Helpers\Debug;
 
 // isMobile
 // isIOS

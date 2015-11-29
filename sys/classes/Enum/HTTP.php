@@ -1,6 +1,6 @@
 <?php
 
-namespace Koz;
+namespace \Koz\Enum;
 
 class HTTP
 {
