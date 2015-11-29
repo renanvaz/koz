@@ -53,9 +53,9 @@ final class Core
         try {
             Request::make($_SERVER['REQUEST_METHOD'], $uri);
         } catch (\Koz\Exception $e) {
-            die('Koz Exception');
-            // Response::status(500);
-            // Response::body(View::make('errors/debug', ['message' => $message, 'file' => str_replace(PRIVATE_PATH, '', $file), 'line' => $line, 'snippet' => $snippet, 'trace' => $trace])->render());
+            // die('Koz Exception');
+            Response::status(500);
+            Response::body($e->render());
         }
 
         echo Response::render();

@@ -1,6 +1,6 @@
 <?php
 
-namespace \Koz\Helpers;
+namespace Koz\Helpers;
 
 /**
  * Text helper class. Provides simple methods for working with text.
@@ -15,11 +15,11 @@ class Text {
 
     /**
      * Parse a string with variables notation
-     * @param  string $text The text
+     * @param  string $string The text
      * @param  array  $data The variables to replace, where the key is the name (without ":") and the value is the replacement
      * @return string The text parsed
      */
-    public static function parse($text, array $data){
+    public static function parse($string, array $data){
         foreach ($data as $key => $value) {
             $string = preg_replace('/:'.$key.'/', $value, $string);
         }

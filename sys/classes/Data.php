@@ -4,12 +4,23 @@ namespace Koz;
 
 class Data implements \Countable, \Serializable, \IteratorAggregate
 {
-    // Array of variables
+    /**
+     * Array of data Name => Value
+     * @var array
+     */
     protected $_data = [];
 
-
+    /**
+     * Flag to indicate if this data is read only
+     * @var bool
+     */
     protected $_readOnly;
 
+    /**
+     * Data
+     * @param array|null $data
+     * @param boolean    $readOnly
+     */
     public function __construct(array $data = NULL, $readOnly = false)
     {
         $this->_readOnly = $readOnly;
@@ -43,6 +54,8 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
     {
         if (empty($this->_data)) {
             $this->_data = unserialize($data);
+        } else {
+            throw new \Koz\Exception('Can\'t unserialize data. This class is not empty.');
         }
     }
 
@@ -76,6 +89,8 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
     {
         if (!$this->_readOnly) {
             \Helpers\Arr::set($this->_data, $path, $value);
+        } else {
+            throw new \Koz\Exception('The key "'.$path.'" is read only.');
         }
     }
 
@@ -93,7 +108,7 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
         if (isset($this->$key)) {
             return $this->_data[$key];
         } else {
-            throw new Exception('The variable "'.$key.'" is not set.');
+            throw new \Koz\Exception('The variable "'.$key.'" is not set.');
         }
     }
 
@@ -110,6 +125,8 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
     {
         if (!$this->_readOnly) {
             $this->_data[$key] = $value;
+        } else {
+            throw new \Koz\Exception('The variable "'.$key.'" is read only.');
         }
     }
 
@@ -138,6 +155,8 @@ class Data implements \Countable, \Serializable, \IteratorAggregate
     {
         if (!$this->_readOnly) {
             unset($this->_data[$key]);
+        } else {
+            throw new \Koz\Exception('The variable "'.$key.'" is read only.');
         }
     }
 

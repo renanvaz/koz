@@ -6,7 +6,7 @@ class Config
 {
     public static function load ($filename)
     {
-        return new Data(include Core::find('configs/'.$filename));
+        return new Data(include Core::find('configs/'.$filename), true);
     }
 }
 

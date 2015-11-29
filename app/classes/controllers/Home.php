@@ -17,8 +17,10 @@ use \Koz\Route;
 
 class Home extends Controller {
     public function GET_index () {
-        View::globals()->varGlobal = 'Test Global';
-        $this->template->content->varLocal = 'Test Local';
+        // View::globals()->varGlobal = 'Test Global';
+        // $this->template->content->varLocal = Messages::load('validation')->get('required')->parse(['field' => 'Teste']);
+
+        $this->template = Messages::load('validation')->get('required')->parse(['field' => 'Teste']);
 
         // $this->template->content = Route::get('default')->uri(['controller' => 'c', 'action' => 'a', 'id' => '1']);
     }

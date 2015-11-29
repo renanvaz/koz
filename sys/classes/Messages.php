@@ -1,6 +1,8 @@
 <?php
 
-namespace \Koz\Helpers;
+namespace Koz;
+
+use \Koz\DataText;
 
 class Messages {
     /**
@@ -17,6 +19,6 @@ class Messages {
     public static function load($filename, $lang = NULL) {
         $lang OR $lang = self::$lang;
 
-        return Config::load('messages/'.$lang.'/'.$filename);
+        return new DataText(include Core::find('configs/messages/'.$lang.'/'.$filename), true);
     }
 }

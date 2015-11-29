@@ -1,6 +1,6 @@
 <?php
 
-namespace \Koz\Helpers;
+namespace Koz\Helpers;
 
 class Assets {
     private $_assets = [
