@@ -2,7 +2,7 @@
 
 namespace Koz;
 
-use \Helpers\Text;
+use \Koz\Helpers\Text;
 use \Koz\Response;
 
 abstract class Controller {
@@ -37,7 +37,7 @@ abstract class Controller {
      */
     public function after () {
         if (!Response::render()) {
-            Response::body(is_string($this->template) ? $this->template : $this->template->render());
+            Response::body($this->template);
         }
     }
 }

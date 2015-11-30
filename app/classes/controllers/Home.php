@@ -20,7 +20,9 @@ class Home extends Controller {
         // View::globals()->varGlobal = 'Test Global';
         // $this->template->content->varLocal = Messages::load('validation')->get('required')->parse(['field' => 'Teste']);
 
-        $this->template = Messages::load('validation')->get('required')->parse(['field' => 'Teste']);
+        // $this->template = Messages::load('validation')->get('required')->parse(['field' => 'Teste']);
+        // $this->template = Messages::load('validation')->required->parse(['field' => 'Teste']);
+        $this->template = Messages::load('validation')->required;
 
         // $this->template->content = Route::get('default')->uri(['controller' => 'c', 'action' => 'a', 'id' => '1']);
     }
