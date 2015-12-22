@@ -113,11 +113,13 @@ class Route
     public function match($uri) {
         $defaultRegex = self::REGEX_VALID_CHARACTERS;
 
+        $uri = trim($uri, '/');
+
         $route      = $this->_schema;
         $rules      = $this->_rules;
         $defaults   = $this->_defaults;
 
-        $regex = '!^'.preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($rules, $defaultRegex) { return '(?P<'.$matches[1].'>'.(Arr::get($rules, $matches[1], $defaultRegex)).')'; }, preg_replace('!\)!', ')?', $route)).'$!';
+        $regex = '!^'.preg_replace_callback('!:('.$defaultRegex.')!', function($matches) use ($rules, $defaultRegex) { return '(?P<'.$matches[1].'>'.(Arr::get($rules, $matches[1], $defaultRegex)).')'; }, preg_replace(['!/\?!', '!\?!'], ['(/', '('], $route).str_repeat(')?', substr_count($route, '?'))).'$!';
 
         if (preg_match($regex, $uri, $matches)) {
             $params = array();
@@ -145,56 +147,27 @@ class Route
     /**
      * Get the route scheme as URI
      *
-     * @param array $defaults The defaults values of params variables
+     * @param array $params The values of params variables
      * @return string The parsed URI
      *
-     * @example $route->get(['controller' => 'teste', 'action' => 'index']);
+     * @example $route->uri(['controller' => 'teste', 'action' => 'index']);
      */
-    static public function uri(array $params = [])
+    public function uri(array $params = [])
     {
-        $uri = self::$_routes[$name]['route'];
+        $uri = $this->_schema;
 
-        $uriParams = [];
-        $uriParamsOptionals = [];
-        $groups = [];
+        $keys = array_keys($params);
+        $values = array_values($params);
 
-        self::getGroups($uri, $groups);
+        do {
+            $uriParams = [];
+            preg_replace_callback('!:('.Route::REGEX_VALID_CHARACTERS.')!', function($matches) use (&$uriParams) { $uriParams[] = $matches[1]; }, $uri);
 
-        print_r($groups);
-
-        preg_replace_callback('!:('.Router::REGEX_VALID_CHARACTERS.')!', function($matches) use (&$uriParams) { $uriParams[] = $matches[1]; }, $uri);
-
-        $uriParamsMissing = array_diff($uriParams, array_keys($params));
-
-        //echo Debug::vars($uriParamsMissing);
-
-        foreach ($uriParamsMissing as $value) {
-            // Fazer aceitar sem o "/"
-            if (strpos($uri, '(/:'.$value) === false) {
-                throw new \Exception('Missing param "'.$value.'"');
+            if (empty(array_diff($uriParams, $keys))) {
+                return preg_replace(array_map(function($v){ return '!:'.$v.'!'; }, $keys), $values, preg_replace('!\?!', '', $uri));
             }
-        }
+        } while ($uri = rtrim(substr($uri, 0, strrpos($uri, '?')), '/'));
 
-        foreach ($params as $key => $value) {
-           $uri = preg_replace('!:'.$key.'!', $value, $uri);
-        }
-
-        foreach ($uriParamsMissing as $key) {
-            $uri = preg_replace('!(/:'.$key.')!', '', $uri);
-        }
-
-        return $uri;
-    }
-
-    static private function getGroups($uri, &$groups)
-    {
-        $match = preg_replace('!(^\(|\)$)!', '', preg_replace('![^\(]*(\(.+\))[^\)]*!', '$1', $uri));
-
-        if (strpos($match, '(') !== false) {
-            $groups[] = $match;
-            self::getGroups($match, $groups);
-        } else {
-            $groups[] = $match;
-        }
+        throw new Exception('Insufficient params.');
     }
 }

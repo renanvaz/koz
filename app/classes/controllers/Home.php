@@ -2,18 +2,20 @@
 
 namespace Controllers;
 
+use \Koz\Enum\HTTP;
+
 use \Koz\Controller;
-use \Koz\Config;
-use \Koz\Debug;
-use \Koz\HTTP;
-use \Koz\Input;
-use \Koz\DB;
-use \Koz\Messages;
-use \Koz\Response;
-use \Koz\Request;
 use \Koz\View;
-use \Koz\Data;
+
 use \Koz\Route;
+use \Koz\Request;
+use \Koz\Response;
+use \Koz\Input;
+
+use \Koz\Data;
+use \Koz\Config;
+use \Koz\Messages;
+use \Helpers\Debug;
 
 class Home extends Controller {
     public function GET_index () {
@@ -22,7 +24,12 @@ class Home extends Controller {
 
         // $this->template = Messages::load('validation')->get('required')->parse(['field' => 'Teste']);
         // $this->template = Messages::load('validation')->required->parse(['field' => 'Teste']);
-        $this->template = Messages::load('validation')->required;
+
+        // \Koz\Route::set('default', ':controller/:action/:id', ['id' => '[0-9]+'])
+        \Koz\Route::set('test', ':lang/?:controller/:test/a/?:action/?how/?:id', ['id' => '[0-9]+'])
+            ->defaults(['controller' => 'home', 'action' => 'index']);
+
+        $this->template = Route::get('test')->uri(['lang' => 'pt-br', 'test' => 'koz', 'controller' => 'test', 'action' => 'action', 'id' => '123']);
 
         // $this->template->content = Route::get('default')->uri(['controller' => 'c', 'action' => 'a', 'id' => '1']);
     }
@@ -53,7 +60,7 @@ class Home extends Controller {
         $test->set('path1.path2', 'REPLACED');
         $test->get('path1.path2');
 
-        Response::body(\Helpers\Debug::vars($test));
+        Response::body(Debug::vars($test));
 
         Messages::$lang = 'en-us';
         View::globals()->varGlobal = Messages::load('validation')->get('required');
