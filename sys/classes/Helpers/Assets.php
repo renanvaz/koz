@@ -4,18 +4,13 @@ namespace Koz\Helpers;
 
 class Assets {
     private $_assets = [
-        'css'           => [],
-        'css_external'  => [],
-        'css_inline'    => [],
-        'js'            => [],
-        'js_external'   => [],
-        'js_inline'     => [],
+        'js'    => [],
+        'css'   => [],
     ];
 
     /**
      * Add a file asset
-     * @param String $type  Type of script and method to load.
-     *                      Types accepted: css, css_external, css_inline, js, js_external, js_inline.
+     * @param String $type  Type/group of script and method to load.
      * @param Array  $files List of files to be added, eg for js: ['vendor/plugin.js', 'main.js']
      *                      File path must start on the specific folder.
      *                          For css files the filename will be prepended with "public/assets/css/"
@@ -29,7 +24,7 @@ class Assets {
 
     /**
      * Remove a file asset
-     * @param String $type  Type of script and method to load
+     * @param String $type  Type/group of script and method to load
      * @param Array  $files List of files to be removed
      */
     public static function remove ($type, Array $files) {
